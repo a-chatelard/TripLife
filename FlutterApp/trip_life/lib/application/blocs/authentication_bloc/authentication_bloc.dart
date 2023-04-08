@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trip_life/domain/abstract_repositories/abstract_authentication_repository.dart';
+import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
 
-import 'package:trip_life/domain/models/authentication.dart';
+import 'package:trip_life/entity/models/authentication.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -26,10 +26,8 @@ class AuthenticationBloc
     String token = _authenticationRepository.readToken();
 
     if (token.isNotEmpty) {
-      print("AuthenticationBloc Authenticated !");
       return emit(AuthenticationState.authenticated(Authentication(token)));
     } else {
-      print("AuthenticationBloc Unauthenticated ...");
       return emit(const AuthenticationState.unauthenticated());
     }
   }

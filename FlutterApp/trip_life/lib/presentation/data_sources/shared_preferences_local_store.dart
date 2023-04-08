@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:trip_life/application/abstract/abstract_local_store.dart';
+import 'package:trip_life/infrastructure/abstract/abstract_local_store.dart';
 
 class SharedPreferencesLocalStore implements AbstractLocalStore {
   SharedPreferencesLocalStore._();
