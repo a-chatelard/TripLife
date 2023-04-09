@@ -1,5 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:trip_life/infrastructure/abstract/abstract_configuration_provider.dart';
+import 'package:trip_life/infrastructure/abstracts/abstract_configuration_provider.dart';
 
 class DotEnvConfigurationProvider implements AbstractConfigurationProvider {
   DotEnvConfigurationProvider._();

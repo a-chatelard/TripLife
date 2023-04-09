@@ -1,16 +1,28 @@
+import 'dart:convert';
+
 import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
-import 'package:trip_life/infrastructure/abstract/abstract_local_store.dart';
+import 'package:trip_life/infrastructure/abstracts/abstract_local_store.dart';
+import 'package:trip_life/infrastructure/abstracts/asbtract_http_client.dart';
 
 class AuthenticationRepository implements AbstractAuthenticationRepository {
-  AuthenticationRepository({required AbstractLocalStore localStore})
-      : _localStore = localStore;
+  AuthenticationRepository(
+      {required AbstractLocalStore localStore,
+      required AbstractHttpClient httpClient})
+      : _localStore = localStore,
+        _httpClient = httpClient;
 
   final AbstractLocalStore _localStore;
+  final AbstractHttpClient _httpClient;
 
   @override
-  Future<bool> authenticate(String token) {
-    // TODO: implement authenticate
-    throw UnimplementedError();
+  Future<bool> authenticate(String token) async {
+    var response = await _httpClient.post(
+        "/authentication",
+        jsonEncode(<String, String>{
+          'token': token,
+        }));
+
+    return response.statusCode == 200;
   }
 
   @override
@@ -27,5 +39,13 @@ class AuthenticationRepository implements AbstractAuthenticationRepository {
   Future<bool> signOut(String token) {
     // TODO: implement signOut
     throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> signIn(String email, String password) async {
+    var response = await _httpClient.post("/login",
+        jsonEncode(<String, String>{'email': email, 'password': password}));
+
+    return response.statusCode == 200;
   }
 }
