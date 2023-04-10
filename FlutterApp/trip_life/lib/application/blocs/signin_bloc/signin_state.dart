@@ -15,11 +15,11 @@ class SigninState extends Equatable {
 
   const SigninState.initial() : this._();
 
-  const SigninState.signinSucces() : this._(status: SigninStatus.success);
+  const SigninState.succes() : this._(status: SigninStatus.success);
 
-  const SigninState.signinLoading() : this._(status: SigninStatus.loading);
+  const SigninState.loading() : this._(status: SigninStatus.loading);
 
-  const SigninState.signinError(String errorMessage)
+  const SigninState.error(String errorMessage)
       : this._(status: SigninStatus.error, errorMessage: errorMessage);
 
   final SigninStatus status;

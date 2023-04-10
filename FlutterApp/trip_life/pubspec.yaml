@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  email_validator: ^2.1.17
   equatable: ^2.0.0
   http: ^0.13.5
   flutter_bloc: ^8.1.2
