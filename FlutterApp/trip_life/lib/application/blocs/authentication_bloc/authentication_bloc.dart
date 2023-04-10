@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
@@ -14,21 +16,22 @@ class AuthenticationBloc
       : _authenticationRepository = authenticationRepository,
         super(const AuthenticationState.unknown()) {
     print("AuthenticationBloc constructor");
-    on<_DetermineAppUserAuthentication>(_onDetermineAppUserAuthentication);
-    add(_DetermineAppUserAuthentication());
+    on<DetermineAppUserAuthentication>(_onDetermineAppUserAuthentication);
+    add(DetermineAppUserAuthentication());
   }
 
   final AbstractAuthenticationRepository _authenticationRepository;
 
   Future<void> _onDetermineAppUserAuthentication(
-      _DetermineAppUserAuthentication event,
+      DetermineAppUserAuthentication event,
       Emitter<AuthenticationState> emit) async {
     String token = _authenticationRepository.readToken();
 
-    if (token.isNotEmpty) {
+    if (token.isNotEmpty &&
+        await _authenticationRepository.authenticate(token)) {
       return emit(AuthenticationState.authenticated(Authentication(token)));
-    } else {
-      return emit(const AuthenticationState.unauthenticated());
     }
+
+    return emit(const AuthenticationState.unauthenticated());
   }
 }

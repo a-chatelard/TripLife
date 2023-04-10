@@ -10,13 +10,13 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       {required AbstractAuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(const SigninState.initial()) {
-    on<_SigninRequested>(_onSigninRequested);
+    on<SigninRequested>(_onSigninRequested);
   }
 
   final AbstractAuthenticationRepository _authenticationRepository;
 
   Future<void> _onSigninRequested(
-      _SigninRequested event, Emitter<SigninState> emit) async {
+      SigninRequested event, Emitter<SigninState> emit) async {
     emit(const SigninState.signinLoading());
 
     if (await _authenticationRepository.signIn(event.email, event.password)) {

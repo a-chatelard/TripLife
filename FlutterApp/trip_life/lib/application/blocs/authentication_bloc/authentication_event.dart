@@ -4,4 +4,4 @@ abstract class AuthenticationEvent {
   const AuthenticationEvent();
 }
 
-class _DetermineAppUserAuthentication extends AuthenticationEvent {}
+class DetermineAppUserAuthentication extends AuthenticationEvent {}

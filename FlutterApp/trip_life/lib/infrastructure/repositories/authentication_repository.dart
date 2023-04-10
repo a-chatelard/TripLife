@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
 import 'package:trip_life/infrastructure/abstracts/abstract_local_store.dart';
@@ -21,6 +22,8 @@ class AuthenticationRepository implements AbstractAuthenticationRepository {
         jsonEncode(<String, String>{
           'token': token,
         }));
+
+    inspect(response);
 
     return response.statusCode == 200;
   }
@@ -46,6 +49,7 @@ class AuthenticationRepository implements AbstractAuthenticationRepository {
     var response = await _httpClient.post("/login",
         jsonEncode(<String, String>{'email': email, 'password': password}));
 
-    return response.statusCode == 200;
+    return response.statusCode == 200 &&
+        await saveToken(jsonDecode(response.body)['token']);
   }
 }

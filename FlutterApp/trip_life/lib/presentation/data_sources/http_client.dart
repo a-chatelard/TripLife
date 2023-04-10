@@ -6,6 +6,7 @@ class HttpClient implements AbstractHttpClient {
   HttpClient({required AbstractWebApi webApi}) {
     _baseUrl = webApi.getBaseUrl();
     _headers = webApi.getHeaders() ?? <String, String>{};
+    _httpClient = Client();
   }
 
   late final Client _httpClient;
@@ -13,35 +14,37 @@ class HttpClient implements AbstractHttpClient {
   late final Map<String, String> _headers;
 
   @override
-  Future<Response> delete(String endpoint, {headers = Map<String, String>}) {
+  Future<Response> delete(String endpoint, {Map<String, String>? headers}) {
     return _httpClient.delete(_getUri(endpoint),
         headers: _mergeHeaders(headers));
   }
 
   @override
   Future<Response> get(String endpoint,
-      {headers = Map<String, String>, queryParameters = Map<String, String>}) {
+      {Map<String, String>? headers, Map<String, String>? queryParameters}) {
     return _httpClient.get(_getUri(endpoint, queryParameters: queryParameters),
         headers: _mergeHeaders(headers));
   }
 
   @override
   Future<Response> patch(String endpoint, Object? body,
-      {headers = Map<String, String>}) {
+      {Map<String, String>? headers}) {
     return _httpClient.patch(_getUri(endpoint),
-        headers: _mergeHeaders(headers));
+        body: body, headers: _mergeHeaders(headers));
   }
 
   @override
   Future<Response> post(String endpoint, Object? body,
-      {headers = Map<String, String>}) {
-    return _httpClient.post(_getUri(endpoint), headers: _mergeHeaders(headers));
+      {Map<String, String>? headers}) {
+    return _httpClient.post(_getUri(endpoint),
+        body: body, headers: _mergeHeaders(headers));
   }
 
   @override
   Future<Response> put(String endpoint, Object? body,
-      {headers = Map<String, String>}) {
-    return _httpClient.put(_getUri(endpoint), headers: _mergeHeaders(headers));
+      {Map<String, String>? headers}) {
+    return _httpClient.put(_getUri(endpoint),
+        body: body, headers: _mergeHeaders(headers));
   }
 
   Map<String, String> _mergeHeaders(Map<String, String>? headersToMerged) {
@@ -54,7 +57,7 @@ class HttpClient implements AbstractHttpClient {
     return {..._headers};
   }
 
-  Uri _getUri(String endpoint, {queryParameters = Map<String, dynamic>}) {
+  Uri _getUri(String endpoint, {Map<String, dynamic>? queryParameters}) {
     return Uri.https(_baseUrl, endpoint, queryParameters);
   }
 }

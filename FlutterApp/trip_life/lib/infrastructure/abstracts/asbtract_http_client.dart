@@ -1,13 +1,13 @@
 import 'package:http/http.dart';
 
 abstract class AbstractHttpClient {
-  Future<Response> delete(String endpoint, {headers = Map<String, String>});
+  Future<Response> delete(String endpoint, {Map<String, String> headers});
   Future<Response> get(String endpoint,
-      {headers = Map<String, String>, queryParameters = Map<String, String>});
+      {Map<String, String>? headers, Map<String, String>? queryParameters});
   Future<Response> patch(String endpoint, Object? body,
-      {headers = Map<String, String>});
+      {Map<String, String>? headers});
   Future<Response> post(String endpoint, Object? body,
-      {headers = Map<String, String>});
+      {Map<String, String>? headers});
   Future<Response> put(String endpoint, Object? body,
-      {headers = Map<String, String>});
+      {Map<String, String>? headers});
 }
