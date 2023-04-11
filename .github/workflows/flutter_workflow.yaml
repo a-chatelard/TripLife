@@ -20,5 +20,5 @@ jobs:
           java-version: '17'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.20.0'
+          flutter-version: '3.7.10'
       - run: flutter pub get
