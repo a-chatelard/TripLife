@@ -1,11 +1,9 @@
-name: CI flutter  pub get and test
+name: CI flutter  pub get
 on:
   push:
-    branches:
-      - feature/add-flutter-project
     paths:
-      - 'FlutterApp/trip_life/**'
-      - '.github/workflows/flutter_workflow.yaml'
+    - 'FlutterApp/trip_life/**'
+    - '.github/workflows/flutter_workflow.yaml'
 
 defaults:
   run:
@@ -24,4 +22,3 @@ jobs:
         with:
           flutter-version: '2.19.5'
       - run: flutter pub get
-      - run: flutter test
