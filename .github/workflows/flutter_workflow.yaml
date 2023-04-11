@@ -1,4 +1,4 @@
-name: CI flutter
+name: CI flutter  pub get and test
 on:
   push:
     branches:
