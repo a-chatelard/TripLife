@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: FlutterApp/trip_life
+    working-directory: ./FlutterApp/trip_life
 
 jobs:
   front-flutter:
@@ -21,4 +21,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.7.10'
+      - uses: actions/cache@v3
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter-install-cache
       - run: flutter --version
