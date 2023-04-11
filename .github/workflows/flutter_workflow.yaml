@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./FlutterApp/trip_life
+    working-directory: FlutterApp/trip_life
 
 jobs:
   front-flutter:
