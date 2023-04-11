@@ -18,6 +18,13 @@ class _SigninFormState extends State<SigninForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String? validatePasseword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Veuillez saisir un mot de passe";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SigninBloc, SigninState>(listener: (context, state) {
@@ -36,8 +43,10 @@ class _SigninFormState extends State<SigninForm> {
                 hintText: 'Email', textEditingController: _emailController),
             const SizedBox(height: 20),
             PasswordTextFormField(
-                hintText: 'Mot de passe',
-                textEditingController: _passwordController),
+              hintText: 'Mot de passe',
+              textEditingController: _passwordController,
+              valitor: validatePasseword,
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () {
