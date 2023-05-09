@@ -2,47 +2,48 @@
 using Domain.Exceptions;
 using System.Net;
 
-namespace WebApi.Middlewares
+namespace WebApi.Middlewares;
+
+public class ExceptionMiddleware
 {
-    public class ExceptionMiddleware
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionMiddleware> _logger;
+
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionMiddleware> _logger;
+        _logger = logger;
+        _next = next;
+    }
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+    public async Task InvokeAsync(HttpContext httpContext)
+    {
+        try
         {
-            _logger = logger;
-            _next = next;
+            await _next(httpContext);
         }
-
-        public async Task InvokeAsync(HttpContext httpContext)
+        catch (Exception ex)
         {
-            try
-            {
-                await _next(httpContext);
-            }
-            catch (Exception ex)
-            {
-                httpContext.Response.ContentType = "application/json";
+            httpContext.Response.ContentType = "application/json";
+            var unhandled = false;
 
-                switch (ex)
-                {
-                    case DomainException:
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest; 
-                        break;
-                    case UnauthorizedAccessException:
-                    case AuthException:
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        break;
-                    default:
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;  
-                        break;
-                }
-                _logger.LogError($"Something went wrong: {ex}");
-
-                var errorDetails = new ErrorDetails(httpContext.Response.StatusCode, ex.Message);
-                await httpContext.Response.WriteAsync(errorDetails.ToString());
+            switch (ex)
+            {
+                case DomainException:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest; 
+                    break;
+                case UnauthorizedAccessException:
+                case AuthException:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+                default:
+                    unhandled = true;
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;  
+                    break;
             }
+            _logger.LogError($"Something went wrong: {ex}");
+            
+            var errorDetails = new ErrorDetails(httpContext.Response.StatusCode, unhandled ? "Unhandled error, check logs" : ex.Message).ToString();
+            await httpContext.Response.WriteAsync(errorDetails);
         }
     }
 }

@@ -8,7 +8,7 @@ public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public UserRepository(ApplicationDbContext context, CancellationToken cancellationToken)
+    public UserRepository(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -28,7 +28,10 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserById(Guid id, CancellationToken cancellationToken)
     {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+        return await _context.Users
+            .Include(u => u.SentFriendships)
+            .Include(u => u.ReceivedFriendships)
+            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 
     public async Task UpdateUser(User user, CancellationToken cancellationToken)

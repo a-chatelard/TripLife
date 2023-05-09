@@ -22,4 +22,6 @@ public class ApplicationDbContext : IdentityUserContext<User, Guid>
     {
         base.OnConfiguring(optionsBuilder);
     }
+
+    public DbSet<Friendship> Friendships { get; set; }
 }

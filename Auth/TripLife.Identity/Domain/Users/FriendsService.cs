@@ -2,24 +2,11 @@
 
 namespace Domain.Users;
 
-public class FriendsService
+public static class FriendsService
 {
-    private readonly IUserRepository _userRepository;
-    
-    public FriendsService(IUserRepository userRepository)
+    public static void SendFriendRequest(User sender, User recipient)
     {
-        _userRepository = userRepository;
-    }
-
-    public async Task SendFriendRequest(Guid senderId, Guid recipientId)
-    {
-        var sender = await _userRepository.GetUserById(senderId, default) 
-            ?? throw new DomainException("Utilisateur non existant.");
-
-        var recipient = await _userRepository.GetUserById(recipientId, default) 
-            ?? throw new DomainException("L'utilisateur que vous souhaitez ajouter en ami n'existe pas ou plus.");
-
-        var existingFriendship = sender.SentFriendships.First(u => u.FriendId == recipient.Id);
+        var existingFriendship = sender.SentFriendships.FirstOrDefault(u => u.FriendId == recipient.Id);
 
         if (existingFriendship != null)
         {
@@ -33,7 +20,7 @@ public class FriendsService
             }
         }
 
-        var existingReceivedFriendship = recipient.SentFriendships.First(u => u.FriendId == sender.Id);
+        var existingReceivedFriendship = recipient.SentFriendships.FirstOrDefault(u => u.FriendId == sender.Id);
 
         if (existingReceivedFriendship != null) 
         { 
@@ -44,20 +31,10 @@ public class FriendsService
             if (existingReceivedFriendship.Status is FriendshipStatus.Pending)
             {
                 existingReceivedFriendship.Accept();
+                return;
             }
         }
 
         sender.SendFriendRequest(recipient);
-    }
-
-    public async Task AcceptFriendRequest(Guid senderId, Guid recipientId)
-    {
-        var sender = await _userRepository.GetUserById(senderId, default) 
-            ?? throw new DomainException("Utilisateur non existant.");
-
-        var recipient = await _userRepository.GetUserById(recipientId, default) 
-            ?? throw new DomainException("L'utilisateur que vous souhaitez ajouter en ami n'existe pas ou plus.");
-
-        var 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain.Auth;
+using Domain.Users;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ public static class DbModules
         });
 
         services.AddScoped<IAuthRepository, AuthRepository>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

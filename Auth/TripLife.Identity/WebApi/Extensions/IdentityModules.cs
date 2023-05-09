@@ -20,7 +20,6 @@ public static class IdentityModules
                 options.Password.RequireLowercase = true; 
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
-
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

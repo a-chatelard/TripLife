@@ -41,11 +41,4 @@ public class AuthController : ControllerBase
 
         return Ok(result);
     }
-
-    [HttpGet]
-    public async Task<IActionResult> Test()
-    {
-        var identity = HttpContext.User.Identity as ClaimsIdentity;
-        return Ok();
-    }
 }

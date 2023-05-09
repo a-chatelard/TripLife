@@ -1,5 +1,6 @@
 ﻿using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Domain.Users;
@@ -11,7 +12,16 @@ public class User : IdentityUser<Guid>
 
     private readonly Collection<Friendship> _receivedFriendships = new();
     public IReadOnlyCollection<Friendship> ReceivedFriendships { get => _receivedFriendships; }
-
+/*
+    private IReadOnlyCollection<User> Friends { get 
+        {
+            return _sentFriendships
+                .Select(sf => sf.Friend).ToList()
+                .Concat(_receivedFriendships.Select(rf => rf.User))
+                .ToImmutableList();
+        } 
+    }
+*/
     private User() { }
     private User(string username, string email) 
     {
@@ -30,24 +40,13 @@ public class User : IdentityUser<Guid>
         _sentFriendships.Add(friendRequest);
     }
 
-    public void AcceptFriendRequest(Guid friendRequestId)
+    public void AcceptFriendRequest(Friendship friendship)
     {
-        var friendRequest = _receivedFriendships.First(fr => fr.Id == friendRequestId);
-        if (friendRequest != null)
-        {
-            _friendsRequest.Remove(friendRequest);
-            _friends.Add(friendRequest.Sender);
-        }
-        else
-        {
-
-        }
+        friendship.Accept();
     }
 
-    /*public void DeclineFriendRequest(Guid friendshipId)
+    public void RejectFriendRequest(Friendship friendship)
     {
-        var friendship = _receivedFriendships.First(f => f.Id == friendshipId) 
-            ?? throw new DomainException("Pas d'invitation en attente.");
-        friendship.Decline();
-    }*/
+        _receivedFriendships.Remove(friendship);
+    }
 }

@@ -37,20 +37,39 @@ public class JwtTokenService
             signingCredentials: credentials
         );
 
-    private Claim[] CreateClaims(User user) =>
-        new[] {
+    private Claim[] CreateClaims(User user)
+    {
+        var claims = new List<Claim>
+        {
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
+        if (user.UserName != null)
+        {
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+        }
+        if (user.Email  != null)
+        {
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
+        }
+        return claims.ToArray();
+    }
 
-    private SigningCredentials CreateSigningCredentials() =>
-        new SigningCredentials(
+    private SigningCredentials CreateSigningCredentials()
+    {
+        var jwtKey = _configuration["Jwt:Key"];
+
+        if (jwtKey == null)
+        {
+            throw new ArgumentNullException("Pas de clé jwt définie.");
+        }
+
+        return new SigningCredentials(
             new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
+                Encoding.UTF8.GetBytes(jwtKey)
             ),
             SecurityAlgorithms.HmacSha256
         );
+    }
 }

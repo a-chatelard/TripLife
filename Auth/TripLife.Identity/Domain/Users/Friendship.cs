@@ -5,10 +5,10 @@ public class Friendship
     public Guid Id { get; set; }
 
     public Guid UserId { get; }
-    public User User { get; }
+    public User User { get; } = default!;
     
     public Guid FriendId { get; }
-    public User Friend { get; }
+    public User Friend { get; } = default!;
 
     public FriendshipStatus Status { get; private set; }
 

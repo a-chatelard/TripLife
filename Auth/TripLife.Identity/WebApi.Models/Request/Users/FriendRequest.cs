@@ -1,7 +1,6 @@
-﻿namespace WebApi.Models.Request.Users
+﻿namespace WebApi.Models.Request.Users;
+
+public class FriendRequest
 {
-    public class FriendRequest
-    {
-        public Guid RecipientUserId { get; set; }
-    }
+    public Guid RecipientId { get; set; }
 }
