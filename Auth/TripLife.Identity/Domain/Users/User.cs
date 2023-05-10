@@ -11,17 +11,9 @@ public class User : IdentityUser<Guid>
 
     private readonly Collection<Friendship> _receivedFriendships = new();
     public IReadOnlyCollection<Friendship> ReceivedFriendships { get => _receivedFriendships; }
-/*
-    private IReadOnlyCollection<User> Friends { get 
-        {
-            return _sentFriendships
-                .Select(sf => sf.Friend).ToList()
-                .Concat(_receivedFriendships.Select(rf => rf.User))
-                .ToImmutableList();
-        } 
-    }
-*/
-    private User() { }
+
+    internal User() { }
+
     private User(string username, string email) 
     {
         UserName = username;
@@ -42,9 +34,8 @@ public class User : IdentityUser<Guid>
 
     public void AcceptFriendRequest(Guid friendRequestId)
     {
-        var friendRequest = _receivedFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
-            ?? throw new DomainException("Demande d'ami non existante.");
-        
+        var friendRequest = GetFriendshipById(friendRequestId);
+
         if (friendRequest.Status is not FriendshipStatus.Pending)
         {
             throw new DomainException("Cette demande d'ami n'est pas en attente.");
@@ -55,8 +46,7 @@ public class User : IdentityUser<Guid>
 
     public void RejectFriendRequest(Guid friendRequestId)
     {
-        var friendRequest = _receivedFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
-            ?? throw new DomainException("Demande d'ami non existante.");
+        var friendRequest = GetFriendshipById(friendRequestId);
 
         if (friendRequest.Status is not FriendshipStatus.Pending)
         {
@@ -68,8 +58,7 @@ public class User : IdentityUser<Guid>
 
     public void CancelFriendRequest(Guid friendRequestId)
     {
-        var friendRequest = _sentFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
-            ?? throw new DomainException("Demande d'ami non existante.");
+        var friendRequest = GetFriendshipById(friendRequestId);
 
         if (friendRequest.Status is not FriendshipStatus.Pending)
         {
@@ -77,5 +66,11 @@ public class User : IdentityUser<Guid>
         }
 
         _sentFriendships.Remove(friendRequest);
+    }
+
+    private Friendship GetFriendshipById(Guid friendRequestId)
+    {
+        return _sentFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
+            ?? throw new DomainException("Demande d'ami non existante.");
     }
 }
