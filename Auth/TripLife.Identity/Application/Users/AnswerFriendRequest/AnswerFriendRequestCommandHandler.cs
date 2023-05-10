@@ -2,6 +2,7 @@
 using Domain.Users;
 
 namespace Application.Users.AnswerFriendRequest;
+
 public class AnswerFriendRequestCommandHandler : IRequestHandler<AnswerFriendRequestCommand>
 {
     private readonly IUserRepository _userRepository;
@@ -16,16 +17,13 @@ public class AnswerFriendRequestCommandHandler : IRequestHandler<AnswerFriendReq
         var user = await _userRepository.GetUserById(request.UserId, cancellationToken)
             ?? throw new DomainException("Utilisateur non existant.");
 
-        var friendRequest = user.ReceivedFriendships.FirstOrDefault(rf => rf.Id == request.FriendRequestId)
-            ?? throw new DomainException("Demande d'ami non existante.");
-
         if (request.Answer)
         {
-            user.AcceptFriendRequest(friendRequest);
+            user.AcceptFriendRequest(request.FriendRequestId);
         }
         else
         {
-            user.RejectFriendRequest(friendRequest);
+            user.RejectFriendRequest(request.FriendRequestId);
         }
 
         await _userRepository.UpdateUser(user, cancellationToken);

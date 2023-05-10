@@ -4,7 +4,7 @@ namespace Domain.Users;
 
 public static class FriendsService
 {
-    public static void SendFriendRequest(User sender, User recipient)
+    public static Friendship? SendFriendRequest(User sender, User recipient)
     {
         var existingFriendship = sender.SentFriendships.FirstOrDefault(u => u.FriendId == recipient.Id);
 
@@ -31,10 +31,10 @@ public static class FriendsService
             if (existingReceivedFriendship.Status is FriendshipStatus.Pending)
             {
                 existingReceivedFriendship.Accept();
-                return;
+                return null;
             }
         }
 
-        sender.SendFriendRequest(recipient);
+        return sender.SendFriendRequest(recipient);
     }
 }

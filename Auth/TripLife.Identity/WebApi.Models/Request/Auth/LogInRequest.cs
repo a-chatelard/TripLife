@@ -2,12 +2,12 @@
 
 public class LogInRequest
 {
-    public string Username { get; set; }
+    public string Email { get; set; }
     public string Password { get; set; }
 
-    public LogInRequest(string username, string password)
+    public LogInRequest(string email, string password)
     {
-        Username = username;
+        Email = email;
         Password = password;
     }
 }

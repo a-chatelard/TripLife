@@ -3,7 +3,6 @@ using Application.Auth.SignUp;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using WebApi.Models.Request.Auth;
 
 namespace WebApi.Controllers;

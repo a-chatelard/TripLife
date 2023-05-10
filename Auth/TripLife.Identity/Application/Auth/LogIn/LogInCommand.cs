@@ -10,7 +10,7 @@ public class LogInCommand : IRequest<LogInResult>
 
     public LogInCommand(LogInRequest request) 
     {
-        Email = request.Username;
+        Email = request.Email;
         Password = request.Password;
     }
 }

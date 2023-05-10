@@ -1,6 +1,5 @@
 ﻿using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Domain.Users;
@@ -34,19 +33,49 @@ public class User : IdentityUser<Guid>
         return new User(username, email);
     }
 
-    public void SendFriendRequest(User recipient)
+    public Friendship SendFriendRequest(User recipient)
     {
         var friendRequest = Friendship.Create(this, recipient);
         _sentFriendships.Add(friendRequest);
+        return friendRequest;
     }
 
-    public void AcceptFriendRequest(Friendship friendship)
+    public void AcceptFriendRequest(Guid friendRequestId)
     {
-        friendship.Accept();
+        var friendRequest = _receivedFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
+            ?? throw new DomainException("Demande d'ami non existante.");
+        
+        if (friendRequest.Status is not FriendshipStatus.Pending)
+        {
+            throw new DomainException("Cette demande d'ami n'est pas en attente.");
+        }
+
+        friendRequest.Accept();
     }
 
-    public void RejectFriendRequest(Friendship friendship)
+    public void RejectFriendRequest(Guid friendRequestId)
     {
-        _receivedFriendships.Remove(friendship);
+        var friendRequest = _receivedFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
+            ?? throw new DomainException("Demande d'ami non existante.");
+
+        if (friendRequest.Status is not FriendshipStatus.Pending)
+        {
+            throw new DomainException("Cette demande d'ami n'est pas en attente.");
+        }
+
+        _receivedFriendships.Remove(friendRequest);
+    }
+
+    public void CancelFriendRequest(Guid friendRequestId)
+    {
+        var friendRequest = _sentFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
+            ?? throw new DomainException("Demande d'ami non existante.");
+
+        if (friendRequest.Status is not FriendshipStatus.Pending)
+        {
+            throw new DomainException("Cette demande d'ami n'est pas en attente.");
+        }
+
+        _sentFriendships.Remove(friendRequest);
     }
 }

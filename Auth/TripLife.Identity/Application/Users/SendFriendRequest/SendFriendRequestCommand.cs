@@ -2,7 +2,7 @@
 
 namespace Application.Users.SendFriendRequest
 {
-    public record SendFriendRequestCommand(Guid SenderId, Guid RecipientId) : IRequest
+    public record SendFriendRequestCommand(Guid SenderId, Guid RecipientId) : IRequest<Guid?>
     {
         public SendFriendRequestCommand(Guid senderId, FriendRequest request): this(senderId, request.RecipientId)
         {
