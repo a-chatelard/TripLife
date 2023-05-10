@@ -14,16 +14,15 @@ namespace Application.Users.SendFriendRequest
 
         public async Task<Guid?> Handle(SendFriendRequestCommand request, CancellationToken cancellationToken)
         {
-            var sender = await _userRepository.GetUserById(request.SenderId, cancellationToken)
+            var user = await _userRepository.GetUserById(request.UserId, cancellationToken)
                 ?? throw new DomainException("Utilisateur non existant.");
             
             var recipient = await _userRepository.GetUserById(request.RecipientId, cancellationToken)
                 ?? throw new DomainException("L'utilisateur demandé n'existe pas ou plus.");
             
-            var friendRequest = FriendsService.SendFriendRequest(sender, recipient);
+            var friendRequest = user.SendFriendRequest(recipient);
 
-            await _userRepository.UpdateUser(sender, cancellationToken);
-            await _userRepository.UpdateUser(recipient, cancellationToken);
+            await _userRepository.UpdateUser(user, cancellationToken);
 
             return friendRequest?.Id;
         }
