@@ -68,6 +68,21 @@ public class User : IdentityUser<Guid>
         _sentFriendships.Remove(friendRequest);
     }
 
+    public void RemoveFriendship(Guid userId)
+    {
+        var sentFriendship = _sentFriendships.First(fr => fr.FriendId == userId);
+        if (sentFriendship != null)
+        {
+            _sentFriendships.Remove(sentFriendship);
+        }
+
+        var received = _receivedFriendships.First(fr => fr.UserId == userId);
+        if (received != null)
+        {
+            _receivedFriendships.Remove(received);
+        }
+    }
+
     private Friendship GetFriendshipById(Guid friendRequestId)
     {
         return _sentFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)

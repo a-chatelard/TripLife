@@ -5,6 +5,7 @@ using Application.Users.GetFriendsList;
 using Application.Users.GetSentFriendRequests;
 using Application.Users.GetUserByUsername;
 using Application.Users.GetUserDetails;
+using Application.Users.RemoveFriend;
 using Application.Users.SendFriendRequest;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -62,13 +63,22 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Jeton d'annulation.</param>
     /// <returns>Liste contenant les amis de l'utilisateur connecté.</returns>
-    [HttpGet("Friends")]
+    [HttpGet("Friend")]
     public async Task<ActionResult<IEnumerable<UserResult>>> GetFriendsList(CancellationToken cancellationToken)
     {
         var command = new GetFriendsListQuery(HttpContext.GetRequesterId());
         var result = await _mediator.Send(command, cancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpDelete("Friend/{friendId}")]
+    public async Task<IActionResult> RemoveFriend(Guid friendId, CancellationToken cancellationToken)
+    {
+        var command = new RemoveFriendCommand(HttpContext.GetRequesterId(), friendId);
+        await _mediator.Send(command, cancellationToken);
+
+        return Ok();
     }
 
     /// <summary>
