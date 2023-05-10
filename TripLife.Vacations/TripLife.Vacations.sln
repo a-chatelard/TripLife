@@ -3,7 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{5CF2C14A-11E4-4E49-8A67-D7485CDA558E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{5CF2C14A-11E4-4E49-8A67-D7485CDA558E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6027B08F-BEFC-4E7B-AF39-C65C6418C254} = {6027B08F-BEFC-4E7B-AF39-C65C6418C254}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{5C95B9C3-298D-4AEF-97E4-FB1FB3B6499D}"
 EndProject
@@ -13,13 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infrastructure", "4 - Infrastructure", "{8A175D82-F6F3-4579-9E01-15A9FC8098F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{647CE201-B576-4516-906D-C7B9F789FEC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{647CE201-B576-4516-906D-C7B9F789FEC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{F415CCBD-589E-4ACA-AD2C-F1462F133098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{F415CCBD-589E-4ACA-AD2C-F1462F133098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{6027B08F-BEFC-4E7B-AF39-C65C6418C254}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{6027B08F-BEFC-4E7B-AF39-C65C6418C254}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Models", "WebApi.Models\WebApi.Models.csproj", "{4369E676-CE31-4C45-AE8F-43F1834B3D18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Models", "WebApi.Models\WebApi.Models.csproj", "{4369E676-CE31-4C45-AE8F-43F1834B3D18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
