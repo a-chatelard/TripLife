@@ -18,10 +18,5 @@ public class ApplicationDbContext : IdentityUserContext<User, Guid>
         base.OnModelCreating(builder);
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-    }
-
     public DbSet<Friendship> Friendships { get; set; }
 }
