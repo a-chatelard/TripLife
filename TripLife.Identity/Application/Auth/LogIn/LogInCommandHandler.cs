@@ -18,13 +18,9 @@ public class LogInCommandHandler : IRequestHandler<LogInCommand, LogInResult>
 
     public async Task<LogInResult> Handle(LogInCommand request, CancellationToken cancellationToken)
     {
-        var user = await _authRepository.GetUserByEmail(request.Email);
-
-        if (user == null)
-        {
-            throw new AuthException("Erreur lors de la connexion.");
-        }
-
+        var user = await _authRepository.GetUserByEmail(request.Email)
+            ?? throw new AuthException("Erreur lors de la connexion.");
+        
         var isPasswordValid = await _authRepository.CheckPassword(user, request.Password);
 
         if (isPasswordValid)

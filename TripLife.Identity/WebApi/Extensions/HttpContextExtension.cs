@@ -1,5 +1,4 @@
-﻿using Application.Exceptions;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace WebApi.Extensions
 {
