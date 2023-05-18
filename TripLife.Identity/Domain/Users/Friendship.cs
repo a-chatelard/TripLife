@@ -2,7 +2,7 @@
 
 public class Friendship
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
 
     public Guid UserId { get; }
     public User User { get; } = default!;

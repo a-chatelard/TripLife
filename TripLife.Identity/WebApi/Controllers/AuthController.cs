@@ -19,6 +19,12 @@ public class AuthController : ControllerBase
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Création d'un compte utilisateur.
+    /// </summary>
+    /// <param name="request">Informations du compte.</param>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Ok si le compte a bien été crée.</returns>
     [HttpPost("SignUp")]
     [AllowAnonymous]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequest request, CancellationToken cancellationToken)
@@ -29,7 +35,13 @@ public class AuthController : ControllerBase
 
         return Ok();
     }
-
+    
+    /// <summary>
+    /// Identifie un utilisateur.
+    /// </summary>
+    /// <param name="request">Identifiant de connexion.</param>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Le token d'authentification de l'utilisateur.</returns>
     [HttpPost("LogIn")]
     [AllowAnonymous]
     public async Task<IActionResult> LogIn([FromBody] LogInRequest request, CancellationToken cancellationToken)

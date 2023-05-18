@@ -62,7 +62,7 @@ public class User : IdentityUser<Guid>
 
     public void AcceptFriendRequest(Guid friendRequestId)
     {
-        var friendRequest = GetFriendshipById(friendRequestId);
+        var friendRequest = GetReceivedFriendShipById(friendRequestId);
 
         if (friendRequest.Status is not FriendshipStatus.Pending)
         {
@@ -74,7 +74,7 @@ public class User : IdentityUser<Guid>
 
     public void RejectFriendRequest(Guid friendRequestId)
     {
-        var friendRequest = GetFriendshipById(friendRequestId);
+        var friendRequest = GetReceivedFriendShipById(friendRequestId);
 
         if (friendRequest.Status is not FriendshipStatus.Pending)
         {
@@ -86,7 +86,7 @@ public class User : IdentityUser<Guid>
 
     public void CancelFriendRequest(Guid friendRequestId)
     {
-        var friendRequest = GetFriendshipById(friendRequestId);
+        var friendRequest = GetSentFriendshipById(friendRequestId);
 
         if (friendRequest.Status is not FriendshipStatus.Pending)
         {
@@ -111,9 +111,15 @@ public class User : IdentityUser<Guid>
         }
     }
 
-    private Friendship GetFriendshipById(Guid friendRequestId)
+    private Friendship GetSentFriendshipById(Guid friendRequestId)
     {
         return _sentFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
+            ?? throw new DomainException("Demande d'ami non existante.");
+    }
+
+    private Friendship GetReceivedFriendShipById(Guid friendRequestId)
+    {
+        return _receivedFriendships.FirstOrDefault(fr => fr.Id == friendRequestId)
             ?? throw new DomainException("Demande d'ami non existante.");
     }
 }

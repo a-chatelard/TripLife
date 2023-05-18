@@ -72,6 +72,12 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Supprime une amitité entre l'utilisateur connecté et un autre utilisateur.
+    /// </summary>
+    /// <param name="friendId">Identifiant de l'ami.</param>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Ok si l'amitié a bien été supprimée.</returns>
     [HttpDelete("Friend/{friendId}")]
     public async Task<IActionResult> RemoveFriend(Guid friendId, CancellationToken cancellationToken)
     {
