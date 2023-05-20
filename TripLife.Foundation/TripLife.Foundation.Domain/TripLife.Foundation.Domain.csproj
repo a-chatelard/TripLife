@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>TripLife Domain Foundation</Title>
+	<Authors>ESGI Survivors Team</Authors>
+	<Description>Librairie partagée pour la solution TripLife et ses éléments du Domain</Description>
+	<Version>1.0.0</Version>
+  </PropertyGroup>
+
+</Project>
