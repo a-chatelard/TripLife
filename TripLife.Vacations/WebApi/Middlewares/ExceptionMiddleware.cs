@@ -1,6 +1,6 @@
 ﻿using Application.Exceptions;
-using Domain.Exceptions;
 using System.Net;
+using TripLife.Foundation.Domain.Exceptions;
 
 namespace WebApi.Middlewares;
 

@@ -10,4 +10,8 @@
     <Folder Include="Invitations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="TripLife.Foundation.Domain" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>

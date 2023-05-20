@@ -13,6 +13,8 @@ public static class DbModules
             options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"));
         });
 
+
+
         return services;
     }
 }

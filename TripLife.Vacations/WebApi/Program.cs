@@ -1,6 +1,7 @@
 using Application;
 using Infrastructure.Extensions;
 using Microsoft.OpenApi.Models;
+using WebApi.Extensions;
 using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,12 +47,14 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
-builder.Services.AddDatabaseModules(configuration);
-
 builder.Services.AddMediatR(options =>
 {
     options.RegisterServicesFromAssembly(typeof(ApplicationEntryPoint).Assembly);
 });
+
+builder.Services.AddDatabaseModules(configuration);
+
+builder.Services.AddKafkaConfiguration(configuration);
 
 var app = builder.Build();
 
