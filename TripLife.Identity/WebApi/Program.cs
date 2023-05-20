@@ -53,16 +53,18 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
+builder.Services.AddMediatR(options =>
+{
+    options.RegisterServicesFromAssembly(typeof(ApplicationEntryPoint).Assembly);
+});
+
 builder.Services.AddDatabaseModules(configuration);
 
 builder.Services.AddIdentityModules(configuration);
 
 builder.Services.AddApplicationServices();
 
-builder.Services.AddMediatR(options =>
-{
-    options.RegisterServicesFromAssembly(typeof(ApplicationEntryPoint).Assembly);
-});
+builder.Services.AddKafkaConfiguration(configuration);
 
 var app = builder.Build();
 
