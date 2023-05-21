@@ -1,11 +1,12 @@
-﻿using Application.Users.UserCreated;
+﻿using Application.Users.Events.UserCreated;
 using MediatR;
 using Microsoft.Extensions.Options;
-using WebApi.Settings;
+using TripLife.Foundation.Kafka.Consumers;
+using TripLife.Foundation.Kafka.Settings;
 
 namespace WebApi.Consumers.UserCreated;
 
-public class UserCreatedConsumer : IHostedService
+public class UserCreatedConsumer : BackgroundService
 {
     private readonly KafkaSettings _kafkaSettings;
     private readonly UserCreatedConsumerSettings _consumerSettings;
@@ -13,9 +14,9 @@ public class UserCreatedConsumer : IHostedService
     private readonly IMediator _mediator;
 
     public UserCreatedConsumer(
-        IOptions<KafkaSettings> kafkaSettings, 
-        IOptions<UserCreatedConsumerSettings> consumerSettings, 
-        ILogger<UserCreatedConsumer> logger, 
+        IOptions<KafkaSettings> kafkaSettings,
+        IOptions<UserCreatedConsumerSettings> consumerSettings,
+        ILogger<UserCreatedConsumer> logger,
         IMediator mediator)
     {
         _kafkaSettings = kafkaSettings.Value;
@@ -24,14 +25,14 @@ public class UserCreatedConsumer : IHostedService
         _mediator = mediator;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var consumer = new KafkaConsumer<UserCreatedEvent>(_kafkaSettings, _consumerSettings, _logger, _mediator);
-        await consumer.ConsumeAsync(cancellationToken);
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
+        Task.Run(async () =>
+        {
+            await Task.Delay(5000);
+            var consumer = new KafkaConsumer<UserCreatedEvent>(_kafkaSettings, _consumerSettings, _logger, _mediator);
+            await consumer.ConsumeAsync(stoppingToken);
+        });
         return Task.CompletedTask;
     }
 }

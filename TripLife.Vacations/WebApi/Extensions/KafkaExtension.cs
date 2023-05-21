@@ -1,5 +1,5 @@
-﻿using WebApi.Consumers.UserCreated;
-using WebApi.Settings;
+﻿using TripLife.Foundation.Kafka.Settings;
+using WebApi.Consumers.UserCreated;
 
 namespace WebApi.Extensions;
 

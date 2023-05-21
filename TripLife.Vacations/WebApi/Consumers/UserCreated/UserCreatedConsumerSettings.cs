@@ -1,4 +1,4 @@
-﻿using WebApi.Settings;
+﻿using TripLife.Foundation.Kafka.Settings;
 
 namespace WebApi.Consumers.UserCreated;
 

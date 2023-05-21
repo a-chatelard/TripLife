@@ -1,4 +1,4 @@
-﻿using Domain.BuildingBlocks;
+﻿using TripLife.Foundation.Domain.BuildingBlocks;
 
 namespace Domain.Vacations;
 public class Address : ValueObject

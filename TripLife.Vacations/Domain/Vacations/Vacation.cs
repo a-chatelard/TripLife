@@ -17,6 +17,8 @@ public class Vacation
 
     public Address? Address { get; private set; }
 
+    public Guid OwnerId { get; private set; }
+
     private readonly Collection<Activity> _activities = new();
     public IReadOnlyCollection<Activity> Activities { get => _activities; }
 
@@ -28,7 +30,17 @@ public class Vacation
         Location = location;
     }
 
-    public static Vacation Create(string label, string location, DateTime startDate, DateTime endDate, double? estimatedBudget, string street, string city, string state, string country, string zipCode)
+    public static Vacation Create(
+        string label, 
+        string location, 
+        DateTime startDate, 
+        DateTime endDate, 
+        double? estimatedBudget, 
+        string? street, 
+        string? city, 
+        string? state, 
+        string? country, 
+        string? zipCode)
     {
         var vacation = new Vacation(label, location);
 

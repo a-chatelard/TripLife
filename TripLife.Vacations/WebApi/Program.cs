@@ -1,5 +1,7 @@
 using Application;
 using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using WebApi.Extensions;
 using WebApi.Middlewares;
@@ -16,7 +18,12 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vacation - WebApi", Version = "v1" });
+
+    var filePath = Path.Combine(AppContext.BaseDirectory, "WebApi.xml");
+    c.IncludeXmlComments(filePath);
+
+    /*c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
                       Enter 'Bearer' [space] and then your token in the text input below.
@@ -44,7 +51,7 @@ builder.Services.AddSwaggerGen(c =>
             },
             new List<string>()
           }
-        });
+        });*/
 });
 
 builder.Services.AddMediatR(options =>
@@ -59,14 +66,14 @@ builder.Services.AddKafkaConfiguration(configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
