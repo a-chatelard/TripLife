@@ -8,14 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="2.1.1" />
     <PackageReference Include="MediatR" Version="12.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
 		<PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="TripLife.Foundation.Kafka" Version="1.0.0" />
     <PackageReference Include="TripLife.Foundation.WebApi" Version="1.0.0" />
   </ItemGroup>
