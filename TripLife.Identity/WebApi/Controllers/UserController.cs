@@ -10,7 +10,7 @@ using Application.Users.SendFriendRequest;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Extensions;
+using TripLife.Foundation.WebApi.Extension;
 using WebApi.Models.Request.Users;
 using WebApi.Models.Result.Users;
 
