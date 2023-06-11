@@ -17,7 +17,7 @@ public class GetSentFriendRequestsQueryHandler: IRequestHandler<GetSentFriendReq
     public async Task<IEnumerable<FriendRequestResult>> Handle(GetSentFriendRequestsQuery request, CancellationToken cancellationToken)
     {
         return await _context.Friendships
-            .Where(fr => fr.UserId == request.UserId && fr.Status == FriendshipStatus.Pending)
+            .Where(fr => fr.UserId == request.UserId && !fr.IsConfirmed)
             .Include(fr => fr.Friend)
             .AsNoTracking()
             .Select(fr => new FriendRequestResult(fr.Id, fr.Friend.UserName))

@@ -10,7 +10,7 @@ public class Friendship
     public Guid FriendId { get; }
     public User Friend { get; } = default!;
 
-    public FriendshipStatus Status { get; private set; }
+    public bool IsConfirmed { get; private set; }
 
     internal Friendship()
     {
@@ -21,7 +21,7 @@ public class Friendship
     {
         User = user;
         Friend = friend;
-        Status = FriendshipStatus.Pending;
+        IsConfirmed = false;
     }
 
     public static Friendship Create(User user, User friend)
@@ -31,11 +31,6 @@ public class Friendship
 
     public void Accept()
     {
-        Status = FriendshipStatus.Accepted;
-    }
-
-    public void Decline()
-    {
-        Status = FriendshipStatus.Declined;
+        IsConfirmed = true;
     }
 }

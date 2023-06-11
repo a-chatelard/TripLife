@@ -1,7 +1,7 @@
-﻿using Domain.Exceptions;
-using Domain.Users;
+﻿using Domain.Users;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using TripLife.Foundation.Domain.Exceptions;
 using WebApi.Models.Result.Users;
 
 namespace Application.Users.GetUserDetails;
@@ -29,8 +29,8 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
             .FirstOrDefaultAsync(u => u.Id == request.RequestedUserId, cancellationToken)
             ?? throw new DomainException("Utilisateur non existant.");
 
-        var isFriend = currentUser.SentFriendships.Any(fr => fr.FriendId == requestedUser.Id && fr.Status == FriendshipStatus.Accepted) 
-            || currentUser.ReceivedFriendships.Any(fr => fr.UserId == requestedUser.Id && fr.Status == FriendshipStatus.Accepted);
+        var isFriend = currentUser.SentFriendships.Any(fr => fr.FriendId == requestedUser.Id && fr.IsConfirmed) 
+            || currentUser.ReceivedFriendships.Any(fr => fr.UserId == requestedUser.Id && fr.IsConfirmed);
 
         return new UserDetailsResult(requestedUser.Id, requestedUser.UserName, isFriend);
     }

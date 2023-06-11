@@ -17,7 +17,7 @@ public class GetFriendsListQueryHandler : IRequestHandler<GetFriendsListQuery, I
     {
         var friends = await _context.Friendships
             .Where(fr => (fr.UserId == request.UserId || fr.FriendId == request.UserId) 
-                && fr.Status == Domain.Users.FriendshipStatus.Accepted)
+                && fr.IsConfirmed)
             .Include(fr => fr.User)
             .Include(fr => fr.Friend)
             .AsNoTrackingWithIdentityResolution()

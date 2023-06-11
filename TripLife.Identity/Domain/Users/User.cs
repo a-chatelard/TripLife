@@ -1,6 +1,6 @@
-﻿using Domain.Exceptions;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.ObjectModel;
+using TripLife.Foundation.Domain.Exceptions;
 
 namespace Domain.Users;
 
@@ -31,24 +31,25 @@ public class User : IdentityUser<Guid>
 
         if (existingFriendship != null)
         {
-            if (existingFriendship.Status is FriendshipStatus.Accepted)
+            if (existingFriendship.IsConfirmed)
             {
                 throw new DomainException("Vous êtes déjà ami avec cet utilisateur.");
             }
-            if (existingFriendship.Status is FriendshipStatus.Pending)
+            else
             {
                 throw new DomainException("Vous avez déjà envoyé une demande d'ami à cet utilisateur.");
             }
         }
+
         var existingReceivedFriendship = ReceivedFriendships.FirstOrDefault(u => u.FriendId == Id);
 
         if (existingReceivedFriendship != null)
         {
-            if (existingReceivedFriendship.Status is FriendshipStatus.Accepted)
+            if (existingReceivedFriendship.IsConfirmed)
             {
                 throw new DomainException("Vous êtes déjà ami avec cet utilisateur.");
             }
-            if (existingReceivedFriendship.Status is FriendshipStatus.Pending)
+            else
             {
                 existingReceivedFriendship.Accept();
                 return null;
@@ -64,9 +65,9 @@ public class User : IdentityUser<Guid>
     {
         var friendRequest = GetReceivedFriendShipById(friendRequestId);
 
-        if (friendRequest.Status is not FriendshipStatus.Pending)
+        if (friendRequest.IsConfirmed)
         {
-            throw new DomainException("Cette demande d'ami n'est pas en attente.");
+            throw new DomainException("Cette demande d'ami a déjà été acceptée.");
         }
 
         friendRequest.Accept();
@@ -76,7 +77,7 @@ public class User : IdentityUser<Guid>
     {
         var friendRequest = GetReceivedFriendShipById(friendRequestId);
 
-        if (friendRequest.Status is not FriendshipStatus.Pending)
+        if (friendRequest.IsConfirmed)
         {
             throw new DomainException("Cette demande d'ami n'est pas en attente.");
         }
@@ -88,7 +89,7 @@ public class User : IdentityUser<Guid>
     {
         var friendRequest = GetSentFriendshipById(friendRequestId);
 
-        if (friendRequest.Status is not FriendshipStatus.Pending)
+        if (friendRequest.IsConfirmed)
         {
             throw new DomainException("Cette demande d'ami n'est pas en attente.");
         }

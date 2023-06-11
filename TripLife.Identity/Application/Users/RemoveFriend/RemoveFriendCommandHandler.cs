@@ -1,5 +1,5 @@
-﻿using Domain.Exceptions;
-using Domain.Users;
+﻿using Domain.Users;
+using TripLife.Foundation.Domain.Exceptions;
 
 namespace Application.Users.RemoveFriend;
 
