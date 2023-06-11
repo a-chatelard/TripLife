@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Users;
 
 namespace Domain.Vacations;
 public class Vacationer
 {
     public Guid Id { get; }
     public Guid VacationId { get; }
+    public Vacation Vacation { get; } = default!;
     public Guid UserId { get; }
+    public User User { get; } = default!;
     public bool IsOwner { get; }
     public bool IsConfirmed { get; private set; }
 
@@ -26,6 +24,7 @@ public class Vacationer
     {
         return new Vacationer(vacationId, userId, isOwner);
     }
+
     public void Confirm()
     {
         IsConfirmed = true;
