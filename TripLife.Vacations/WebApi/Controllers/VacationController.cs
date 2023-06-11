@@ -14,13 +14,11 @@ public class VacationController : ControllerBase
         _mediator = mediator;
     }
 
-    /// <summary>
-    /// Retourne les informations d'un utilisateur, notamment si l'utilisateur connecté est ami avec lui.
-    /// </summary>
-    /// <returns>Les informations de l'utilisateur.</returns>
+
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetUserVacations()
     {
+
         return Ok();
     }
 }
