@@ -11,5 +11,7 @@ public class ActivityMapping : IEntityTypeConfiguration<Activity>
         builder.ToTable(nameof(ApplicationDbContext.Activities));
         
         builder.HasKey(a => a.Id);
+
+        builder.HasMany(a => a.Participations).WithOne(p => p.Activity).HasForeignKey(p => p.ActivityId);
     }
 }

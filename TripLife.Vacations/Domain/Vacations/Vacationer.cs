@@ -1,32 +1,53 @@
 ﻿using Domain.Users;
+using FluentValidation;
+using TripLife.Foundation.Domain.Exceptions;
 
 namespace Domain.Vacations;
 public class Vacationer
 {
     public Guid Id { get; }
-    public Guid VacationId { get; }
+
     public Vacation Vacation { get; } = default!;
-    public Guid UserId { get; }
+    public Guid VacationId { get; }
+
     public User User { get; } = default!;
+    public Guid UserId { get; }
+
     public bool IsOwner { get; }
     public bool IsConfirmed { get; private set; }
 
     internal Vacationer() { }
 
-    private Vacationer(Guid vacationId, Guid userId, bool isOwner)
+    private Vacationer(User user, bool isOwner)
     {
-        VacationId = vacationId;
-        UserId = userId;
+        User = user;
         IsOwner = isOwner;
+        IsConfirmed = false;
     }
 
-    public static Vacationer Create(Guid vacationId, Guid userId, bool isOwner)
+    public static Vacationer Create(User user, bool isOwner)
     {
-        return new Vacationer(vacationId, userId, isOwner);
+        var vacationer = new Vacationer(user, isOwner);
+
+        var validationResult = new VacationerValidator().Validate(vacationer);
+        if (!validationResult.IsValid)
+        {
+            throw new DomainValidationException(validationResult.Errors);
+        }
+
+        return vacationer;
     }
 
     public void Confirm()
     {
         IsConfirmed = true;
+    }
+}
+
+public class VacationerValidator : AbstractValidator<Vacationer>
+{
+    public VacationerValidator()
+    {
+        RuleFor(v => v.User).NotEmpty().WithMessage("L'utilisateur participant à des vacances ne peut pas être nul.");
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Vacations;
+﻿using Domain.Users;
+using Domain.Vacations;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -17,7 +18,13 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
+    public DbSet<User> Users { get; set; }
+
     public DbSet<Vacation> Vacations { get; set; }
 
+    public DbSet<Vacationer> Vacationers { get; set; }
+
     public DbSet<Activity> Activities { get; set; }
+
+    public DbSet<Participation> Participations { get; set; }
 }

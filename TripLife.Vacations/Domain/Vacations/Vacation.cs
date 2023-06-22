@@ -1,4 +1,5 @@
 ﻿using Domain.Users;
+using FluentValidation;
 using System.Collections.ObjectModel;
 using TripLife.Foundation.Domain.Exceptions;
 
@@ -9,14 +10,10 @@ public class Vacation
     public Guid Id { get; }
 
     public string Label { get; }
-    public string Location { get; }
 
-    public VacationPeriod Period { get; }
+    public Period Period { get; private set; }
 
-    public DateTime StartDate { get; private set; }
-    public DateTime EndDate { get; private set; }
-
-    public double? EstimatedBudget { get; private set; }
+    public Price? EstimatedBudget { get; private set; }
 
     public Address? Address { get; private set; }
 
@@ -28,54 +25,108 @@ public class Vacation
 
     internal Vacation() { }
 
-    private Vacation(string label, string location)
+    private Vacation(string label, Period period, Price? estimatedBudget, Address? address)
     {
         Label = label;
-        Location = location;
+        Period = period;
+        EstimatedBudget = estimatedBudget;
+        Address = address;
     }
 
     public static Vacation Create(
-        string label, 
-        string location,
-        , 
-        Address address)
+        string label,
+        Period period,
+        Price? estimatedBudget,
+        Address? address,
+        User owner)
     {
-        var vacation = new Vacation(label, location);
+        var vacation = new Vacation(label, period, estimatedBudget, address);
 
-        vacation.UpdateDates(startDate, endDate);
-        vacation.SetEstimatedBudget(estimatedBudget);
-        vacation.SetAddress(street, city, state, country, zipCode);
+        vacation.AddVacationer(owner, true);
+
+        var validationResult = new VacationValidator().Validate(vacation);
+        if (!validationResult.IsValid)
+        {
+            throw new DomainValidationException(validationResult.Errors);
+        }
 
         return vacation;
     }
 
-    public void SetAddress(string? street, string? city, string? state, string? country, string? zipCode)
+    public Vacationer AddVacationer(User user, bool isOwner = false)
     {
-        if (string.IsNullOrWhiteSpace(street) 
-            || string.IsNullOrWhiteSpace(city) 
-            || string.IsNullOrWhiteSpace(state) 
-            || string.IsNullOrWhiteSpace(country) 
-            || string.IsNullOrWhiteSpace(zipCode))
+        if (Vacationers.Any(v => v.UserId == user.Id))
         {
-            Address = null;
-            return;
-        }
-        Address = Address.Create(street, city, state, country, zipCode);
-    }
-
-    public void UpdateDates(DateTime startDate, DateTime endDate)
-    {
-        if (startDate >  endDate) 
-        {
-            throw new DomainException("La date de fin ne peut être supérieure à la date de début.");
+            throw new DomainException("Cet utilisateur participe déjà à ces vacances.");
         }
 
-        StartDate = startDate;
-        EndDate = endDate;
+        var vacationer = Vacationer.Create(user, isOwner);
+
+        _vacationers.Add(vacationer);
+
+        return vacationer;
     }
 
-    public void SetEstimatedBudget(double? estimatedBudget)
+    public void RemoveVacationer(Vacationer vacationer)
     {
-        EstimatedBudget = estimatedBudget;
+        if (vacationer.IsOwner)
+        {
+            throw new DomainException("Vous ne pouvez pas supprimer le propriétaire des vacances.");
+        }
+
+        _vacationers.Remove(vacationer);
+    }
+
+    public void ConfirmVacationer(Vacationer vacationer)
+    {
+        if (vacationer.IsConfirmed)
+        {
+            throw new DomainException("Le vacancier a déjà confirmé sa participation aux vacances.");
+        }
+
+        vacationer.Confirm();
+    }
+
+    public void CancelVacationer(Vacationer vacationer)
+    {
+        if (vacationer.IsConfirmed)
+        {
+            throw new DomainException("Le vacancier a déjà confirmé sa participation aux vacances.");
+        }
+
+        _vacationers.Remove(vacationer);
+    }
+
+    public void ProposeActivity(Activity activity)
+    {
+        _activities.Add(activity);
+    } 
+
+    public void DeleteActivity(Activity activity)
+    {
+        _activities.Remove(activity);
+    }
+
+    public void AddParticipantToActivity(Activity activity, Vacationer vacationer)
+    {
+        activity.AddParticipant(vacationer);
+    }
+
+    public void RemoveParticipantFromActivity(Activity activity, Participation participation)
+    {
+        activity.RemoveParticipation(participation);
+    }
+}
+
+public class VacationValidator : AbstractValidator<Vacation>
+{
+    public VacationValidator()
+    {
+        RuleFor(v => v.Label).NotEmpty().WithMessage("Le libellé des vacances ne peut être nul.");
+        RuleFor(v => v.Period).NotEmpty().WithMessage("La période des vacances ne peut être nulle.");
+        RuleFor(v => v.Vacationers).Must((vacation, vacationers) =>
+        {
+            return vacationers.Any(v => v.IsOwner);
+        }).WithMessage("Les vacances doivent obligatoirement comprendre un organisateur.");
     }
 }

@@ -1,5 +1,10 @@
-﻿using MediatR;
+﻿using Application.Vacations.CreateVacation;
+using Application.Vacations.DeleteVacation;
+using Application.Vacations.GetUserVacations;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TripLife.Foundation.WebApi.Extension;
+using WebApi.Models.Request.Vacations;
 
 namespace WebApi.Controllers;
 
@@ -14,11 +19,35 @@ public class VacationController : ControllerBase
         _mediator = mediator;
     }
 
-
+    /// <summary>
+    /// Récupère les vacances auxquelles l'utilisateur connecté participe.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
-    public async Task<IActionResult> GetUserVacations()
+    public async Task<ActionResult> GetUserVacations(CancellationToken cancellationToken)
     {
+        var query = new GetUserVacationsQuery(HttpContext.GetRequesterId());
+        var result = await _mediator.Send(query, cancellationToken);
 
-        return Ok();
+        return Ok(result);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<Guid>> CreateVacation([FromBody] VacationRequest request)
+    {
+        var command = new CreateVacationCommand(HttpContext.GetRequesterId(), request);
+        var result = await _mediator.Send(command);
+
+        return CreatedAtAction(nameof(CreateVacation), result);
+    }
+
+    [HttpDelete("{vacationId:guid}")]
+    public async Task<IActionResult> DeleteVacation(Guid vacationId, CancellationToken cancellationToken)
+    {
+        var command = new DeleteVacationCommand(HttpContext.GetRequesterId(), vacationId);
+        await _mediator.Send(command, cancellationToken);
+        
+        return NoContent();
+    }
+
 }

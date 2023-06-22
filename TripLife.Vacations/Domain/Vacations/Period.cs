@@ -1,22 +1,22 @@
-﻿using Domain.Exceptions;
-using FluentValidation;
+﻿using FluentValidation;
 using TripLife.Foundation.Domain.BuildingBlocks;
+using TripLife.Foundation.Domain.Exceptions;
 
 namespace Domain.Vacations;
-public class VacationPeriod : ValueObject
+public class Period : ValueObject
 {
     public DateTime StartDate { get; }
     public DateTime EndDate { get; }
 
-    internal VacationPeriod() { }
-    private VacationPeriod(DateTime startDate, DateTime endDate)
+    internal Period() { }
+    private Period(DateTime startDate, DateTime endDate)
     {
         StartDate = startDate;
         EndDate = endDate;
     }
-    public static VacationPeriod Create(DateTime startDate, DateTime endDate)
+    public static Period Create(DateTime startDate, DateTime endDate)
     {
-        var period = new VacationPeriod(startDate, endDate);
+        var period = new Period(startDate, endDate);
 
         var validationResult = new PeriodValidator().Validate(period);
         if (!validationResult.IsValid)
@@ -33,12 +33,12 @@ public class VacationPeriod : ValueObject
     }
 }
 
-public class PeriodValidator : AbstractValidator<VacationPeriod>
+public class PeriodValidator : AbstractValidator<Period>
 {
     public PeriodValidator()
     {
-        RuleFor(p => p.StartDate).NotEmpty().WithMessage("La date de début des vacances ne peut être nulle.");
-        RuleFor(p => p.EndDate).NotEmpty().WithMessage("La date de fin des vacances ne peut être nulle");
+        RuleFor(p => p.StartDate).NotEmpty().WithMessage("La date de début ne peut être nulle.");
+        RuleFor(p => p.EndDate).NotEmpty().WithMessage("La date de fin ne peut être nulle");
         RuleFor(p => p.StartDate).LessThanOrEqualTo(p => p.EndDate).WithMessage("La date de début doit être inférieure ou égale à la date de fin.");
     }
 }

@@ -16,8 +16,13 @@ public class VacationMapping : IEntityTypeConfiguration<Vacation>
         builder.HasMany(v => v.Activities).WithOne(a => a.Vacation).HasForeignKey(a => a.VacationId);
 
         builder.Property(v => v.Address).HasConversion(
-            address => JsonConvert.SerializeObject(address, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }), 
+            address => JsonConvert.SerializeObject(address, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
             address => JsonConvert.DeserializeObject<Address>(address, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })
         );
+
+        builder.OwnsOne(v => v.Period).Property(p => p.StartDate).HasColumnName(nameof(Period.StartDate));
+        builder.OwnsOne(v => v.Period).Property(p => p.EndDate).HasColumnName(nameof(Period.EndDate));
+
+        builder.OwnsOne(v => v.EstimatedBudget).Property(p => p.Amount).HasColumnName(nameof(Vacation.EstimatedBudget));
     }
 }
