@@ -3,17 +3,12 @@ import 'package:trip_life/infrastructure/repositories/authentication_repository.
 
 class MockAuthenticationRepository implements AuthenticationRepository {
   @override
-  Future<bool> authenticate(String token) async {
-    return true;
-  }
-
-  @override
   Future<bool> signIn(String email, String password) async {
     return true;
   }
 
   @override
-  Future<bool> signOut(String token) async {
+  Future<bool> signUp(String username, String email, String password) async {
     return true;
   }
 

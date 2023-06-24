@@ -15,7 +15,6 @@ class AuthenticationBloc
       {required AbstractAuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(const AuthenticationState.unknown()) {
-    print("AuthenticationBloc constructor");
     on<DetermineAppUserAuthentication>(_onDetermineAppUserAuthentication);
     add(DetermineAppUserAuthentication());
   }
