@@ -10,16 +10,17 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       {required AbstractAuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(const SignupState.initial()) {
-    on<SignupRequested>(_onSigninRequested);
+    on<SignupRequested>(_onSignupRequested);
   }
 
   final AbstractAuthenticationRepository _authenticationRepository;
 
-  Future<void> _onSigninRequested(
+  Future<void> _onSignupRequested(
       SignupRequested event, Emitter<SignupState> emit) async {
     emit(const SignupState.loading());
 
-    if (await _authenticationRepository.signIn(event.email, event.password)) {
+    if (await _authenticationRepository.signUp(
+        event.username, event.email, event.password)) {
       return emit(const SignupState.succes());
     } else {
       return emit(const SignupState.error("Erreur lors de l'inscription'"));
