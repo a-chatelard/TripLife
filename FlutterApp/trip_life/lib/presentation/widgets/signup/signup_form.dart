@@ -60,10 +60,10 @@ class _SignupFormState extends State<SignupForm> {
             ElevatedButton(
                 onPressed: () {
                   context.read<SignupBloc>().add(SignupRequested(
-                      _emailController.value.toString(),
-                      _passwordController.value.toString(),
-                      _firstNameController.value.toString(),
-                      _lastNameController.value.toString()));
+                      _emailController.text,
+                      _passwordController.text,
+                      _firstNameController.text,
+                      _lastNameController.text));
                 },
                 child: const Text('S\'inscrire'))
           ],

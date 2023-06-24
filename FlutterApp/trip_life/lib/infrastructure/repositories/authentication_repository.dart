@@ -46,10 +46,10 @@ class AuthenticationRepository implements AbstractAuthenticationRepository {
 
   @override
   Future<bool> signIn(String email, String password) async {
-    var response = await _httpClient.post("/login",
+    var response = await _httpClient.post("/Auth/LogIn",
         jsonEncode(<String, String>{'email': email, 'password': password}));
 
     return response.statusCode == 200 &&
-        await saveToken(jsonDecode(response.body)['token']);
+        await saveToken(jsonDecode(response.body)['accessToken']);
   }
 }

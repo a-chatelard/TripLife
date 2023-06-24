@@ -27,8 +27,7 @@ class AuthenticationBloc
       Emitter<AuthenticationState> emit) async {
     String token = _authenticationRepository.readToken();
 
-    if (token.isNotEmpty &&
-        await _authenticationRepository.authenticate(token)) {
+    if (token.isNotEmpty) {
       return emit(AuthenticationState.authenticated(Authentication(token)));
     }
 
