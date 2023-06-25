@@ -52,8 +52,7 @@ class _SigninFormState extends State<SigninForm> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     context.read<SigninBloc>().add(SigninRequested(
-                        _emailController.value.toString(),
-                        _passwordController.value.toString()));
+                        _emailController.text, _passwordController.text));
                   }
                 },
                 child: const Text('Connexion'))

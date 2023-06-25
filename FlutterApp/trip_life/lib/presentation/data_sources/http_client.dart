@@ -4,14 +4,12 @@ import 'package:trip_life/infrastructure/abstracts/asbtract_http_client.dart';
 
 class HttpClient implements AbstractHttpClient {
   HttpClient({required AbstractWebApi webApi}) {
-    _baseUrl = webApi.getBaseUrl();
-    _headers = webApi.getHeaders() ?? <String, String>{};
+    _webApi = webApi;
     _httpClient = Client();
   }
 
   late final Client _httpClient;
-  late final String _baseUrl;
-  late final Map<String, String> _headers;
+  late final AbstractWebApi _webApi;
 
   @override
   Future<Response> delete(String endpoint, {Map<String, String>? headers}) {
@@ -49,15 +47,19 @@ class HttpClient implements AbstractHttpClient {
 
   Map<String, String> _mergeHeaders(Map<String, String>? headersToMerged) {
     if (headersToMerged == null) {
-      return _headers;
+      return _headers();
     }
 
-    Map<String, String> headers = {..._headers};
+    Map<String, String> headers = {..._headers()};
     headers.addAll(headersToMerged);
-    return {..._headers};
+    return {..._headers()};
   }
 
   Uri _getUri(String endpoint, {Map<String, dynamic>? queryParameters}) {
-    return Uri.https(_baseUrl, endpoint, queryParameters);
+    return Uri.https(_webApi.getBaseUrl(), endpoint, queryParameters);
+  }
+
+  Map<String, String> _headers() {
+    return _webApi.getHeaders() ?? <String, String>{};
   }
 }

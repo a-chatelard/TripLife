@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
 import 'package:trip_life/infrastructure/abstracts/abstract_local_store.dart';
@@ -16,19 +15,6 @@ class AuthenticationRepository implements AbstractAuthenticationRepository {
   final AbstractHttpClient _httpClient;
 
   @override
-  Future<bool> authenticate(String token) async {
-    var response = await _httpClient.post(
-        "/authentication",
-        jsonEncode(<String, String>{
-          'token': token,
-        }));
-
-    inspect(response);
-
-    return response.statusCode == 200;
-  }
-
-  @override
   String readToken() {
     return _localStore.readStringValue('token') ?? "";
   }
@@ -39,17 +25,24 @@ class AuthenticationRepository implements AbstractAuthenticationRepository {
   }
 
   @override
-  Future<bool> signOut(String token) {
-    // TODO: implement signOut
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> signIn(String email, String password) async {
-    var response = await _httpClient.post("/login",
+    var response = await _httpClient.post("/Auth/LogIn",
         jsonEncode(<String, String>{'email': email, 'password': password}));
 
     return response.statusCode == 200 &&
-        await saveToken(jsonDecode(response.body)['token']);
+        await saveToken(jsonDecode(response.body)['accessToken']);
+  }
+
+  @override
+  Future<bool> signUp(String username, String email, String password) async {
+    var response = await _httpClient.post(
+        "/Auth/SignUp",
+        jsonEncode(<String, String>{
+          'username': username,
+          'email': email,
+          'password': password
+        }));
+
+    return response.statusCode == 200;
   }
 }
