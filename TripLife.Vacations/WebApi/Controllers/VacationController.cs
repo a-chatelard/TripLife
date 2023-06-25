@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TripLife.Foundation.WebApi.Extension;
 using WebApi.Models.Request.Vacations;
+using WebApi.Models.Result.Vacations;
 
 namespace WebApi.Controllers;
 
@@ -22,9 +23,10 @@ public class VacationController : ControllerBase
     /// <summary>
     /// Récupère les vacances auxquelles l'utilisateur connecté participe.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Une liste de vacances.</returns>
     [HttpGet]
-    public async Task<ActionResult> GetUserVacations(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<VacationResult>>> GetUserVacations(CancellationToken cancellationToken)
     {
         var query = new GetUserVacationsQuery(HttpContext.GetRequesterId());
         var result = await _mediator.Send(query, cancellationToken);
@@ -32,15 +34,27 @@ public class VacationController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Crée des vacances.
+    /// </summary>
+    /// <param name="request">Requête contenant les informations des vacances à créer.</param>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>L'identifiant des vacances créées.</returns>
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateVacation([FromBody] VacationRequest request)
+    public async Task<ActionResult<Guid>> CreateVacation([FromBody] VacationRequest request, CancellationToken cancellationToken)
     {
         var command = new CreateVacationCommand(HttpContext.GetRequesterId(), request);
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
 
         return CreatedAtAction(nameof(CreateVacation), result);
     }
 
+    /// <summary>
+    /// Supprime des vacances, seul l'organisateur peut les supprimer.
+    /// </summary>
+    /// <param name="vacationId">Identifiant des vacances à supprimer.</param>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns></returns>
     [HttpDelete("{vacationId:guid}")]
     public async Task<IActionResult> DeleteVacation(Guid vacationId, CancellationToken cancellationToken)
     {

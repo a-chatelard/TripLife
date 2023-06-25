@@ -14,7 +14,7 @@ public class DeleteVacationCommandHandler : IRequestHandler<DeleteVacationComman
     public async Task Handle(DeleteVacationCommand request, CancellationToken cancellationToken)
     {
         var vacation = await _repository.GetVacationById(request.VacationId, cancellationToken)
-            ?? throw new DomainException($"Les vacances d'ID {request.VacationId} n'ont pas été trouvées.");
+            ?? throw new DomainException($"Les vacances n'ont pas été trouvées.");
 
         var owner = vacation.Vacationers.FirstOrDefault(v => v.IsOwner)
             ?? throw new DomainException("Organisateur des vacances non trouvé.");

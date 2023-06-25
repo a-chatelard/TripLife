@@ -99,10 +99,15 @@ public class Vacation
 
     public void ProposeActivity(Activity activity)
     {
+        if (activity.Period.IsIncludedIn(Period))
+        {
+            throw new DomainException("La période de l'activité doit être incluse dans la période des vacances.");
+        }
+
         _activities.Add(activity);
     } 
 
-    public void DeleteActivity(Activity activity)
+    public void RemoveActivity(Activity activity)
     {
         _activities.Remove(activity);
     }

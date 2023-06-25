@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using TripLife.Foundation.WebApi.Extension;
 using WebApi.Models.Request.Invitations;
 using WebApi.Models.Request.Vacationers;
+using WebApi.Models.Result.Invitations;
 
 namespace WebApi.Controllers;
 
@@ -70,8 +71,14 @@ public class InvitationController : ControllerBase
     }
 
     
+    /// <summary>
+    /// Récupère les invitations en attente des vacances concernées.
+    /// </summary>
+    /// <param name="vacationId">Identifiant des vacances.</param>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Une liste d'invitations.</returns>
     [HttpGet("Vacation/{vacationId:guid}/Invitation")]
-    public async Task<ActionResult> GetPendingInvitation(Guid vacationId, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<InvitationResult>>> GetPendingInvitation(Guid vacationId, CancellationToken cancellationToken)
     {
         var query = new GetPendingVacationInvitationQuery(HttpContext.GetRequesterId(), vacationId);
         var result = await _mediator.Send(query, cancellationToken);

@@ -31,6 +31,11 @@ public class Period : ValueObject
         yield return StartDate;
         yield return EndDate;
     }
+
+    public bool IsIncludedIn(Period period)
+    {
+        return StartDate >= period.StartDate && EndDate <= period.EndDate;
+    }
 }
 
 public class PeriodValidator : AbstractValidator<Period>

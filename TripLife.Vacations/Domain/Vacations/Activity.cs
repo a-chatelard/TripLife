@@ -29,13 +29,13 @@ public class Activity
         Address = address;
     }
 
-    public static Activity Create(Vacation vacation, string label, Period period, Price? estimatedPrice, Address? address, Vacationer owner)
+    public static Activity Create(string label, Period period, Price? estimatedPrice, Address? address, Vacationer owner)
     {
         var activity = new Activity(label, period, estimatedPrice, address);
 
         activity.AddParticipant(owner, true);
 
-        var validationResult = new ActivityValidator(vacation).Validate(activity);
+        var validationResult = new ActivityValidator().Validate(activity);
         if (!validationResult.IsValid)
         {
             throw new DomainValidationException(validationResult.Errors);
@@ -63,7 +63,7 @@ public class Activity
 
 public class ActivityValidator : AbstractValidator<Activity>
 {
-    public ActivityValidator(Vacation vacation)
+    public ActivityValidator()
     {
         RuleFor(v => v.Label).NotEmpty().WithMessage("Le libellé de l'activité ne peut être nul.");
         RuleFor(v => v.Period).NotEmpty().WithMessage("La période de l'activité ne peut être nulle.");
