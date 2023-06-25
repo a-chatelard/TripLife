@@ -1,11 +1,13 @@
 ﻿using Application.Activities.AddParticipation;
 using Application.Activities.CreateActivity;
 using Application.Activities.DeleteActivity;
+using Application.Activities.GetActivities;
 using Application.Activities.RemoveParticipation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TripLife.Foundation.WebApi.Extension;
 using WebApi.Models.Request.Activities;
+using WebApi.Models.Result.Activities;
 
 namespace WebApi.Controllers;
 
@@ -18,6 +20,20 @@ public class ActivityController : ControllerBase
     public ActivityController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    /// <summary>
+    /// Retourne les activités des vacances spécifiées.
+    /// </summary>
+    /// <param name="vacationId">Identifiant des vacances.</param>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Une liste d'activités.</returns>
+    [HttpGet("{vacationId:guid}/Activity")]
+    public async Task<ActionResult<IEnumerable<ActivityResult>>> GetActivities(Guid vacationId, CancellationToken cancellationToken)
+    {
+        var query = new GetActivitiesQuery(vacationId);
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(result);
     }
 
     [HttpPost("{vacationId:guid}/Activity")]

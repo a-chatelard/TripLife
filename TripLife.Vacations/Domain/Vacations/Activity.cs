@@ -10,11 +10,11 @@ public class Activity
     public Vacation Vacation { get; } = default!;
     public Guid VacationId { get; }
 
-    public string Label { get; }
-    public string? Description { get; }
-    public Period Period { get; }
-    public Price? EstimatedPrice { get; }
-    public Address? Address { get; }
+    public string Label { get; private set; }
+    public string? Description { get; private set; }
+    public Period Period { get; private set; }
+    public Price? EstimatedPrice { get; private set; }
+    public Address? Address { get; private set; }
 
     private readonly Collection<Participation> _participations = new();
     public IReadOnlyCollection<Participation> Participations { get => _participations; }

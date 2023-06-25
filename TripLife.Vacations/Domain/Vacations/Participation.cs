@@ -13,7 +13,7 @@ public class Participation
     public Vacationer Vacationer { get; } = default!;
     public Guid VacationerId { get; }
     
-    public bool IsOwner { get; }
+    public bool IsOwner { get; private set; }
 
     internal Participation() { }
     

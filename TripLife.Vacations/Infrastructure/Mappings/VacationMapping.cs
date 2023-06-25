@@ -13,6 +13,7 @@ public class VacationMapping : IEntityTypeConfiguration<Vacation>
         builder.ToTable(nameof(ApplicationDbContext.Vacations));
 
         builder.HasKey(v => v.Id);
+
         builder.HasMany(v => v.Activities).WithOne(a => a.Vacation).HasForeignKey(a => a.VacationId);
 
         builder.Property(v => v.Address).HasConversion(

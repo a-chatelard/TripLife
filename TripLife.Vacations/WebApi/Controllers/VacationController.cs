@@ -1,6 +1,7 @@
 ﻿using Application.Vacations.CreateVacation;
 using Application.Vacations.DeleteVacation;
 using Application.Vacations.GetUserVacations;
+using Application.Vacations.GetVacationDetails;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TripLife.Foundation.WebApi.Extension;
@@ -31,6 +32,20 @@ public class VacationController : ControllerBase
         var query = new GetUserVacationsQuery(HttpContext.GetRequesterId());
         var result = await _mediator.Send(query, cancellationToken);
 
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Retourne les informations détaillées des vacances demandée.
+    /// </summary>
+    /// <param name="vacationId">Identifiant des vacances.</param>
+    /// <param name="cancellationToken">Jeton d'annulation</param>
+    /// <returns></returns>
+    [HttpGet("{vacationId:guid}")]
+    public async Task<ActionResult<VacationResult>> GetVacationDetails(Guid vacationId, CancellationToken cancellationToken)
+    {
+        var query = new GetVacationDetailsQuery(vacationId);
+        var result = await _mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 

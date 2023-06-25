@@ -1,4 +1,7 @@
-﻿using Infrastructure.Context;
+﻿using Domain.Users;
+using Domain.Vacations;
+using Infrastructure.Context;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +16,8 @@ public static class DbModules
             options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"));
         });
 
-
+        services.AddScoped<IVacationRepository, VacationRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

@@ -9,7 +9,7 @@ public class Vacation
 {
     public Guid Id { get; }
 
-    public string Label { get; }
+    public string Label { get; private set; }
 
     public Period Period { get; private set; }
 

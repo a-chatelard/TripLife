@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebApi.Models.Result.Vacations;
+﻿namespace WebApi.Models.Result.Vacations;
 public class VacationResult
 {
     public Guid Id { get; }

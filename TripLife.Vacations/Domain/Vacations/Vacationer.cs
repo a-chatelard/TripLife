@@ -13,7 +13,7 @@ public class Vacationer
     public User User { get; } = default!;
     public Guid UserId { get; }
 
-    public bool IsOwner { get; }
+    public bool IsOwner { get; private set; }
     public bool IsConfirmed { get; private set; }
 
     internal Vacationer() { }
