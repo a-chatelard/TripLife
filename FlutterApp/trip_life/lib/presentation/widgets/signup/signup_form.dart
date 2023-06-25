@@ -19,8 +19,7 @@ class _SignupFormState extends State<SignupForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,36 +35,31 @@ class _SignupFormState extends State<SignupForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextFormField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                    hintText: 'Saississez votre nom d\'utilisateur')),
+            const SizedBox(height: 20),
             EmailTextFormField(
-                hintText: 'Email', textEditingController: _emailController),
+                hintText: 'Saississez votre email',
+                textEditingController: _emailController),
             const SizedBox(height: 20),
             PasswordTextFormField(
-                hintText: 'Mot de passe',
+                hintText: 'Entrez votre mot de passe',
                 textEditingController: _passwordController),
             const SizedBox(height: 20),
             PasswordTextFormField(
-                hintText: 'Confirmation mot de passe',
+                hintText: 'Confirmez votre mot de passe',
                 textEditingController: _confirmPasswordController),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _firstNameController,
-              decoration: const InputDecoration(hintText: 'Prénom'),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _lastNameController,
-              decoration: const InputDecoration(hintText: 'Nom'),
-            ),
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () {
                   context.read<SignupBloc>().add(SignupRequested(
-                      _emailController.value.toString(),
-                      _passwordController.value.toString(),
-                      _firstNameController.value.toString(),
-                      _lastNameController.value.toString()));
+                      _usernameController.text,
+                      _emailController.text,
+                      _passwordController.text));
                 },
-                child: const Text('S\'inscrire'))
+                child: const Text('Valider'))
           ],
         ),
       );
@@ -77,8 +71,7 @@ class _SignupFormState extends State<SignupForm> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 }
