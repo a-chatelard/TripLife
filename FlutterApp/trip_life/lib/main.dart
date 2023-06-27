@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
 import 'package:trip_life/infrastructure/abstracts/abstract_configuration_provider.dart';
 import 'package:trip_life/presentation/app.dart';
@@ -6,6 +7,7 @@ import 'package:trip_life/presentation/service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
   await setupServiceLocator();
   await authenticationFromConfiguration();
 
