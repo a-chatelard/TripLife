@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 
   static Route<void> route() {
     return MaterialPageRoute<void>(
-        builder: (_) => const HomePage(title: "Welcome"));
+        builder: (_) => const HomePage(title: "Mes voyages"));
   }
 
   final String title;
@@ -22,10 +22,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final String title = "Mes Voyages";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MainAppBar(),
+      appBar: MainAppBar(title: title),
       drawer: const MainDrawer(),
       body: BlocProvider(
         create: (_) => VacationListBloc(
