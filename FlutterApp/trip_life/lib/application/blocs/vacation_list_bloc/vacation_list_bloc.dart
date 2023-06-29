@@ -23,7 +23,8 @@ class VacationListBloc extends Bloc<VacationListEvent, VacationListState> {
           await _vacationRepository.getVacationsList();
       emit(VacationListState.succes(vacationsList));
     } catch (error) {
-      emit(VacationListState.error(error.toString()));
+      emit(const VacationListState.error(
+          "Une erreur est survenue lors de la récupération des données."));
     }
   }
 }

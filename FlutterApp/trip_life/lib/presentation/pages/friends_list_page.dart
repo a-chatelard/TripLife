@@ -7,6 +7,7 @@ import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/friend/friend_list_item.dart';
 import 'package:trip_life/presentation/widgets/shared/main_app_bar.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
+import 'package:trip_life/presentation/widgets/shared/retry_scaffold.dart';
 
 class FriendsListPage extends StatefulWidget {
   const FriendsListPage({super.key, required this.title});
@@ -47,11 +48,14 @@ class _FriendsListPageState extends State<FriendsListPage> {
                             username: state.friendList?[index].username ?? "");
                       });
                 } else if (state.status.isFailed) {
-                  return Container(
-                    height: 50,
-                    color: Colors.tealAccent[100],
-                    child: Center(child: Text(state.errorMessage ?? "")),
-                  );
+                  return RetryScaffold(
+                      errorMessage: state.errorMessage,
+                      callback: () {
+                        context
+                            .read<FriendListBloc>()
+                            .emit(const FriendListState.loading());
+                        context.read<FriendListBloc>().add(FriendListRequest());
+                      });
                 } else {
                   return const Scaffold(
                       body: Center(

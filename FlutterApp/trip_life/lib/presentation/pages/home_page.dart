@@ -5,6 +5,7 @@ import 'package:trip_life/application/blocs/vacation_list_bloc/vacation_list_blo
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/shared/main_app_bar.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
+import 'package:trip_life/presentation/widgets/shared/retry_scaffold.dart';
 import 'package:trip_life/presentation/widgets/vacation/vacations_list_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,11 +51,16 @@ class _HomePageState extends State<HomePage> {
                       );
                     });
               } else if (state.status.isFailed) {
-                return Container(
-                  height: 50,
-                  color: Colors.tealAccent[100],
-                  child: Center(child: Text(state.errorMessage ?? "")),
-                );
+                return RetryScaffold(
+                    errorMessage: state.errorMessage,
+                    callback: () {
+                      context
+                          .read<VacationListBloc>()
+                          .emit(const VacationListState.loading());
+                      context
+                          .read<VacationListBloc>()
+                          .add(VacationListRequest());
+                    });
               } else {
                 return const Scaffold(
                     body: Center(
