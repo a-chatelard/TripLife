@@ -11,19 +11,19 @@ class VacationListBloc extends Bloc<VacationListEvent, VacationListState> {
       : _vacationRepository = vacationRepository,
         super(const VacationListState.loading()) {
     on<VacationListRequest>(_onVacationListRequest);
-    add(VacationListRequest());
   }
 
   final AbstractVacationRepository _vacationRepository;
 
   Future<void> _onVacationListRequest(
       VacationListEvent event, Emitter<VacationListState> emit) async {
+    emit(const VacationListState.loading());
     try {
       List<Vacation> vacationsList =
           await _vacationRepository.getVacationsList();
-      emit(VacationListState.succes(vacationsList));
+      return emit(VacationListState.succes(vacationsList));
     } catch (error) {
-      emit(const VacationListState.error(
+      return emit(const VacationListState.error(
           "Une erreur est survenue lors de la récupération des données."));
     }
   }

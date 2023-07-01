@@ -1,7 +1,7 @@
 import 'package:trip_life/entity/models/address.dart';
 import 'package:trip_life/entity/models/vacation.dart';
+import 'package:trip_life/entity/models/vacation_details.dart';
 import 'package:trip_life/entity/models/vacation_invitation.dart';
-import 'package:trip_life/entity/models/vacationer.dart';
 
 abstract class AbstractVacationRepository {
   Future<bool> acceptVacationInvitation(String vacationId, String vacationerId);
@@ -15,6 +15,6 @@ abstract class AbstractVacationRepository {
   Future<List<Vacation>> getVacationsList();
   Future<List<VacationInvitation>> getPendingVacationInvitationsList(
       String vacationId);
-  Future<List<Vacationer>> getVacationersList(String vacationId);
+  Future<VacationDetails> getVacation(String vacationId);
   Future<bool> createVacationInvitation(String vacationId, String userId);
 }

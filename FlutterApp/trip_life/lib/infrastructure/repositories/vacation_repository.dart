@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_vacation_repository.dart';
-import 'package:trip_life/entity/models/vacationer.dart';
+import 'package:trip_life/entity/models/vacation_details.dart';
 import 'package:trip_life/entity/models/vacation_invitation.dart';
 import 'package:trip_life/entity/models/vacation.dart';
 import 'package:trip_life/entity/models/address.dart';
@@ -106,17 +105,19 @@ class VacationRepository implements AbstractVacationRepository {
   }
 
   @override
-  Future<List<Vacationer>> getVacationersList(String vacationId) async {
-    var response = await _httpClient.get("/Vacation/$vacationId/Vacationer");
+  Future<VacationDetails> getVacation(String vacationId) async {
+    var responseVacation = await _httpClient.get("/Vacation/$vacationId");
 
-    if (response.statusCode == 200) {
-      Iterable i = jsonDecode(response.body);
+    if (responseVacation.statusCode == 200) {
+      VacationDetails vacationDetails =
+          VacationDetails.fromJson(jsonDecode(responseVacation.body));
 
-      if (i.isNotEmpty) {
-        return List<Vacationer>.from(
-            i.map((item) => Vacationer.fromJson(item)));
-      }
-      return List<Vacationer>.empty();
+      // if (i.isNotEmpty) {
+      //   //return VacationDetails.from(i.map((item) => Vacationer.fromJson(item)));
+      // }
+      //return List<VacationDetails>.empty();
+
+      return vacationDetails;
     }
 
     return Future.error("Une erreur est survenue.");

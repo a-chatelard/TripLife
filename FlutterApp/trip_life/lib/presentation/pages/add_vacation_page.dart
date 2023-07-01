@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_vacation_repository.dart';
 import 'package:trip_life/application/blocs/add_vacation_bloc/add_vacation_bloc.dart';
+import 'package:trip_life/application/blocs/vacation_list_bloc/vacation_list_bloc.dart';
 import 'package:trip_life/entity/models/address.dart';
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/shared/loader_overlay_entry.dart';
@@ -71,6 +72,8 @@ class _AddVacationPageState extends State<AddVacationPage>
 
   @override
   Widget build(BuildContext context) {
+    //final vacationsListBloc = BlocProvider.of<VacationListBloc>(context);
+
     return BlocProvider(
         create: (_) => AddVacationBloc(
             vacationRepository:
@@ -78,7 +81,7 @@ class _AddVacationPageState extends State<AddVacationPage>
         child: BlocConsumer<AddVacationBloc, AddVacationState>(
             listener: (context, state) {
           // if (state.status.isSuccessful) {
-          //   context.read<VacationListBloc>().add(VacationListRequest());
+          //   vacationsListBloc.add(VacationListRequest());
           // }
         }, builder: (context, state) {
           if (state.status.isSuccessful || state.status.isFailed) {
@@ -213,5 +216,20 @@ class _AddVacationPageState extends State<AddVacationPage>
     registerForRestoration(_selectedEndDate, 'end_date');
     registerForRestoration(
         _restorableDateRangePickerRouteFuture, 'date_picker_route_future');
+  }
+
+  @override
+  void dispose() {
+    _labelController.dispose();
+    _startDateController.dispose();
+    _endDateController.dispose();
+    _streetController.dispose();
+    _zipCodeController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _countryController.dispose();
+    _budgetController.dispose();
+    _budgetController.dispose();
+    super.dispose();
   }
 }

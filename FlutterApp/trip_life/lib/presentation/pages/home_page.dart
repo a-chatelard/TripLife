@@ -34,7 +34,8 @@ class _HomePageState extends State<HomePage> {
         body: BlocProvider(
           create: (_) => VacationListBloc(
               vacationRepository:
-                  serviceLocator.get<AbstractVacationRepository>()),
+                  serviceLocator.get<AbstractVacationRepository>())
+            ..add(VacationListRequest()),
           child: BlocConsumer<VacationListBloc, VacationListState>(
               listener: (context, state) {},
               builder: (context, state) {
@@ -44,20 +45,16 @@ class _HomePageState extends State<HomePage> {
                       itemCount: state.vacationList?.length,
                       itemBuilder: (BuildContext context, int index) {
                         return VacationsListItem(
-                          label: state.vacationList?[index].label ?? "",
-                          startDate: state.vacationList?[index].startDate ??
-                              DateTime(2023),
-                          endDate: state.vacationList?[index].endDate ??
-                              DateTime(2023),
+                          vacationId: state.vacationList![index].vacationId,
+                          label: state.vacationList![index].label,
+                          startDate: state.vacationList![index].startDate,
+                          endDate: state.vacationList![index].endDate,
                         );
                       });
                 } else if (state.status.isFailed) {
                   return RetryScaffold(
                       errorMessage: state.errorMessage,
                       callback: () {
-                        context
-                            .read<VacationListBloc>()
-                            .emit(const VacationListState.loading());
                         context
                             .read<VacationListBloc>()
                             .add(VacationListRequest());
@@ -71,13 +68,13 @@ class _HomePageState extends State<HomePage> {
               }),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: _showAddVacationPage,
+          onPressed: () => _showAddVacationPage(context),
           child: const Icon(Icons.add),
         ));
   }
 
-  void _showAddVacationPage() {
-    Navigator.of(context).push(AddVacationPage.route());
+  void _showAddVacationPage(BuildContext context) {
+    Navigator.push(context, AddVacationPage.route());
   }
 
   @override
