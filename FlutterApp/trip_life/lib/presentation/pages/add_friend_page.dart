@@ -5,6 +5,7 @@ import 'package:trip_life/application/blocs/add_friend_bloc/add_friend_bloc.dart
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/friend/add_friend_result_list_item.dart';
 import 'package:trip_life/presentation/widgets/shared/deboucer.dart';
+import 'package:trip_life/presentation/widgets/shared/previous_screen_app_bar.dart';
 
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({super.key});
@@ -23,14 +24,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          actions: <Widget>[
-            IconButton(
-                onPressed: _returnToPreviousScreen,
-                icon: const Icon(Icons.close))
-          ],
-        ),
+        appBar: const PreviousScreenAppBar(),
         body: BlocProvider(
             create: (_) => AddFriendBloc(
                 friendRepository:
@@ -49,10 +43,6 @@ class _AddFriendPageState extends State<AddFriendPage> {
                     Expanded(child: _addFriendResultList(state))
                   ]);
                 })));
-  }
-
-  void _returnToPreviousScreen() {
-    Navigator.of(context).pop();
   }
 
   void _searchFriend(BuildContext context, String username) {

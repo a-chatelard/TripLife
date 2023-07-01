@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_vacation_repository.dart';
 import 'package:trip_life/entity/models/vacationer.dart';
 import 'package:trip_life/entity/models/vacation_invitation.dart';
@@ -38,9 +39,9 @@ class VacationRepository implements AbstractVacationRepository {
       DateTime endDate, Address address, double estimatedBudget) async {
     var vacation = {
       'label': label,
-      'startDate': startDate,
-      'endDate': endDate,
-      'address': address,
+      'startDate': startDate.toUtc().toIso8601String(),
+      'endDate': endDate.toUtc().toIso8601String(),
+      'address': address.toJson(),
       'estimatedBudget': estimatedBudget
     };
 
