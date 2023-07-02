@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:trip_life/entity/models/address.dart';
 
@@ -15,4 +17,15 @@ class Activity extends Equatable {
 
   @override
   List<Object?> get props => [activityId, label, startDate, endDate];
+
+  static fromJson(Map<String, dynamic> json) {
+    return Activity(
+        json['id'],
+        json['label'],
+        json['description'],
+        json['startDate'],
+        json['endDate'],
+        json['estimatedPrice'],
+        Address.fromJson(jsonDecode(json['address'])));
+  }
 }

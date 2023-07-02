@@ -7,7 +7,7 @@ class Vacationer extends Equatable {
   final String vacationerId;
   final String vacationId;
   final String userId;
-  final String username;
+  final String? username;
   final bool isOwner;
 
   @override
@@ -15,7 +15,7 @@ class Vacationer extends Equatable {
       [vacationerId, vacationId, userId, username, isOwner];
 
   static fromJson(Map<String, dynamic> json) {
-    return Vacationer(json['vacationerId'], json['vacationId'], json['userId'],
-        json['username'], json['isOwner']);
+    return Vacationer(json['id'], json['vacationId'], json['userId'],
+        json['userName'], json['isOwner']);
   }
 }

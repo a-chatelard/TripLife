@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:trip_life/entity/models/activity.dart';
 import 'package:trip_life/entity/models/vacationer.dart';
 
 class VacationDetails extends Equatable {
@@ -16,6 +17,7 @@ class VacationDetails extends Equatable {
   final DateTime endDate;
   //final double estimatedBudget;
   late List<Vacationer> vacationersList;
+  late List<Activity> activitiesList;
 
   @override
   List<Object?> get props => [vacationId];
@@ -28,6 +30,10 @@ class VacationDetails extends Equatable {
       DateTime.parse(json['endDate']),
       //double.parse(json['estimatedBudget'])
     );
+  }
+
+  void setActivitiesList(List<Activity> activitiesList) {
+    this.activitiesList = activitiesList;
   }
 
   void setVacationersList(List<Vacationer> vacationersList) {

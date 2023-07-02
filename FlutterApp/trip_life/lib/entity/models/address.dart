@@ -12,6 +12,11 @@ class Address extends Equatable {
   @override
   List<Object?> get props => [street, city, state, country, zipCode];
 
+  static fromJson(Map<String, dynamic> json) {
+    return Address(json['street'], json['city'], json['state'], json['country'],
+        json['zipCode']);
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'street': street,

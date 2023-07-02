@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:trip_life/application/abstract_repositories/abstract_vacation_repository.dart';
+import 'package:trip_life/entity/models/activity.dart';
 import 'package:trip_life/entity/models/vacation_details.dart';
 import 'package:trip_life/entity/models/vacation_invitation.dart';
 import 'package:trip_life/entity/models/vacation.dart';
 import 'package:trip_life/entity/models/address.dart';
+import 'package:trip_life/entity/models/vacationer.dart';
 import 'package:trip_life/infrastructure/abstracts/asbtract_http_client.dart';
 
 class VacationRepository implements AbstractVacationRepository {
@@ -148,15 +150,28 @@ class VacationRepository implements AbstractVacationRepository {
   @override
   Future<VacationDetails> getVacation(String vacationId) async {
     var responseVacation = await _httpClient.get("/Vacation/$vacationId");
+    var responseVacationers =
+        await _httpClient.get("/Vacation/$vacationId/Vacationer");
+    var responseActivities =
+        await _httpClient.get("/Vacation/$vacationId/Activity");
 
     if (responseVacation.statusCode == 200) {
       VacationDetails vacationDetails =
           VacationDetails.fromJson(jsonDecode(responseVacation.body));
 
-      // if (i.isNotEmpty) {
-      //   //return VacationDetails.from(i.map((item) => Vacationer.fromJson(item)));
-      // }
-      //return List<VacationDetails>.empty();
+      Iterable vacationerIterable = jsonDecode(responseVacationers.body);
+
+      if (vacationerIterable.isNotEmpty) {
+        vacationDetails.setVacationersList(List<Vacationer>.from(
+            vacationerIterable.map((item) => Vacationer.fromJson(item))));
+      }
+
+      Iterable activityIterable = jsonDecode(responseActivities.body);
+
+      if (activityIterable.isNotEmpty) {
+        vacationDetails.setActivitiesList(List<Activity>.from(
+            activityIterable.map((item) => Activity.fromJson(item))));
+      }
 
       return vacationDetails;
     }

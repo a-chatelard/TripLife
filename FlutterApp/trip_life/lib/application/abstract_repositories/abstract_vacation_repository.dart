@@ -1,4 +1,3 @@
-import 'package:trip_life/entity/models/activity.dart';
 import 'package:trip_life/entity/models/address.dart';
 import 'package:trip_life/entity/models/vacation.dart';
 import 'package:trip_life/entity/models/vacation_details.dart';
