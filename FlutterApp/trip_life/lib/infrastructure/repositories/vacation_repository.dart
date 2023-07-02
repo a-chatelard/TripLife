@@ -164,6 +164,8 @@ class VacationRepository implements AbstractVacationRepository {
       if (vacationerIterable.isNotEmpty) {
         vacationDetails.setVacationersList(List<Vacationer>.from(
             vacationerIterable.map((item) => Vacationer.fromJson(item))));
+      } else {
+        vacationDetails.setVacationersList(List<Vacationer>.empty());
       }
 
       Iterable activityIterable = jsonDecode(responseActivities.body);
@@ -171,6 +173,8 @@ class VacationRepository implements AbstractVacationRepository {
       if (activityIterable.isNotEmpty) {
         vacationDetails.setActivitiesList(List<Activity>.from(
             activityIterable.map((item) => Activity.fromJson(item))));
+      } else {
+        vacationDetails.setActivitiesList(List<Activity>.empty());
       }
 
       return vacationDetails;
