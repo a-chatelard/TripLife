@@ -14,6 +14,15 @@ class VacationRepository implements AbstractVacationRepository {
   final AbstractHttpClient _httpClient;
 
   @override
+  Future<bool> addActivityParticipation(
+      String vacationId, String activityId) async {
+    var response = await _httpClient
+        .post("/Vacation/$vacationId/Activity/$activityId/Participation", {});
+
+    return response.statusCode == 200;
+  }
+
+  @override
   Future<bool> acceptVacationInvitation(
       String vacationId, String vacationerId) async {
     var answer = {'answer': true};
@@ -31,6 +40,30 @@ class VacationRepository implements AbstractVacationRepository {
         .delete("/Vacation/$vacationId/Vacationer/$vacationerId");
 
     return response.statusCode == 204;
+  }
+
+  @override
+  Future<bool> createActivity(
+      String vacationId,
+      String label,
+      String description,
+      DateTime startDate,
+      DateTime endDate,
+      double estimatedPrice,
+      Address address) async {
+    var activity = {
+      'label': label,
+      'description': description,
+      'startDate': startDate.toUtc().toIso8601String(),
+      'endDate': endDate.toUtc().toIso8601String(),
+      'address': address.toJson(),
+      'estimatedPrice': estimatedPrice
+    };
+
+    var response = await _httpClient.post(
+        "/Vacation/$vacationId/Activity", jsonEncode(activity));
+
+    return response.statusCode == 201;
   }
 
   @override
@@ -69,6 +102,14 @@ class VacationRepository implements AbstractVacationRepository {
         "/Vacation/$vacationId/Vacationer/$vacationerId", jsonEncode(answer));
 
     return response.statusCode == 200;
+  }
+
+  @override
+  Future<bool> deleteActivity(String vacationId, String activityId) async {
+    var response =
+        await _httpClient.delete("/Vacation/$vacationId/Activity/$activityId");
+
+    return response.statusCode == 204;
   }
 
   @override
@@ -137,5 +178,14 @@ class VacationRepository implements AbstractVacationRepository {
     }
 
     return Future.error("Une erreur est survenue.");
+  }
+
+  @override
+  Future<bool> removeActivityParticipation(
+      String vacationId, String activityId) async {
+    var response = await _httpClient
+        .delete("/Vacation/$vacationId/Activity/$activityId/Participation");
+
+    return response.statusCode == 200;
   }
 }

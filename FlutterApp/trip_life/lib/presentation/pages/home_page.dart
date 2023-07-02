@@ -6,8 +6,7 @@ import 'package:trip_life/presentation/pages/add_vacation_page.dart';
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/shared/app_bar/main_app_bar.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
-import 'package:trip_life/presentation/widgets/shared/retry_scaffold.dart';
-import 'package:trip_life/presentation/widgets/vacation/vacations_list_item.dart';
+import 'package:trip_life/presentation/widgets/vacation/vacations_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -32,41 +31,11 @@ class _HomePageState extends State<HomePage> {
         appBar: MainAppBar(title: title),
         drawer: const MainDrawer(),
         body: BlocProvider(
-          create: (_) => VacationListBloc(
-              vacationRepository:
-                  serviceLocator.get<AbstractVacationRepository>())
-            ..add(VacationListRequest()),
-          child: BlocConsumer<VacationListBloc, VacationListState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state.status.isSuccessful) {
-                  return ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: state.vacationList?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return VacationsListItem(
-                          vacationId: state.vacationList![index].vacationId,
-                          label: state.vacationList![index].label,
-                          startDate: state.vacationList![index].startDate,
-                          endDate: state.vacationList![index].endDate,
-                        );
-                      });
-                } else if (state.status.isFailed) {
-                  return RetryScaffold(
-                      errorMessage: state.errorMessage,
-                      callback: () {
-                        context
-                            .read<VacationListBloc>()
-                            .add(VacationListRequest());
-                      });
-                } else {
-                  return const Scaffold(
-                      body: Center(
-                          child: CircularProgressIndicator(
-                              backgroundColor: Colors.green)));
-                }
-              }),
-        ),
+            create: (_) => VacationListBloc(
+                vacationRepository:
+                    serviceLocator.get<AbstractVacationRepository>())
+              ..add(VacationListRequest()),
+            child: const VacationsList()),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _showAddVacationPage(context),
           child: const Icon(Icons.add),
