@@ -9,11 +9,10 @@ public class User
 
     internal User() { }
 
-    public User(Guid id, string? username)
+    private User(Guid id, string? username)
     {
         Id = id;
         Username = username;
-
     }
 
     public static User Create(Guid userId, string? username)
