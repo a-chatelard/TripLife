@@ -28,7 +28,7 @@ public class InvitationController : ControllerBase
     /// <param name="request">Requête contenant l'identifiant de l'utilisateur.</param>
     /// <param name="cancellationToken">Jeton d'annulation.</param>
     /// <returns>201 si l'invitation a bien été ajoutée.</returns>
-    [HttpPost("Vacation/{vacationId:guid}/Vacationer")]
+    [HttpPost("Vacation/{vacationId:guid}/Invitation")]
     public async Task<IActionResult> InviteUser(Guid vacationId, [FromBody] VacationerRequest request, CancellationToken cancellationToken)
     {
         var command = new InviteUserCommand(HttpContext.GetRequesterId(), vacationId, request);
@@ -44,7 +44,7 @@ public class InvitationController : ControllerBase
     /// <param name="vacationerId">Identifiant de l'invitation</param>
     /// <param name="cancellationToken">Jeton d'annulation.</param>
     /// <returns>204 si l'invitation a bien été annulée.</returns>
-    [HttpDelete("Vacation/{vacationId:guid}/Vacationer/{vacationerId:guid}")] 
+    [HttpDelete("Vacation/{vacationId:guid}/Invitation/{vacationerId:guid}")]
     public async Task<IActionResult> CancelInvitation(Guid vacationId, Guid vacationerId, CancellationToken cancellationToken)
     {
         var command = new CancelInvitationCommand(HttpContext.GetRequesterId(), vacationId, vacationerId);
@@ -61,7 +61,7 @@ public class InvitationController : ControllerBase
     /// <param name="request">Requête contenant la réponse à l'invitation.</param>
     /// <param name="cancellationToken">Jeton d'annulation.</param>
     /// <returns>200 si la réponse à l'invitation a bien été prise en compte.</returns>
-    [HttpPatch("Vacation/{vacationId:guid}/Vacationer/{vacationerId:guid}")]
+    [HttpPatch("Vacation/{vacationId:guid}/Invitation/{vacationerId:guid}")]
     public async Task<IActionResult> AnswerInvitation(Guid vacationId, Guid vacationerId, [FromBody] InvitationAnswerRequest request, CancellationToken cancellationToken)
     {
         var command = new AnswerInvitationCommand(HttpContext.GetRequesterId(), vacationId, vacationerId, request);
