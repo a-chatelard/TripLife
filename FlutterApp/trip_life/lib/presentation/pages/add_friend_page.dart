@@ -5,7 +5,7 @@ import 'package:trip_life/application/blocs/add_friend_bloc/add_friend_bloc.dart
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/friend/add_friend_result_list_item.dart';
 import 'package:trip_life/presentation/widgets/shared/deboucer.dart';
-import 'package:trip_life/presentation/widgets/shared/previous_screen_app_bar.dart';
+import 'package:trip_life/presentation/widgets/shared/app_bar/previous_screen_app_bar.dart';
 
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({super.key});

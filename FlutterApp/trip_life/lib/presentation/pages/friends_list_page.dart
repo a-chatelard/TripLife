@@ -5,7 +5,7 @@ import 'package:trip_life/application/blocs/friend_list_bloc/friend_list_bloc.da
 import 'package:trip_life/presentation/pages/add_friend_page.dart';
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/friend/friend_list_item.dart';
-import 'package:trip_life/presentation/widgets/shared/main_app_bar.dart';
+import 'package:trip_life/presentation/widgets/shared/app_bar/main_app_bar.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
 import 'package:trip_life/presentation/widgets/shared/retry_scaffold.dart';
 

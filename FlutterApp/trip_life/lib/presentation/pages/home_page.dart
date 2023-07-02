@@ -4,7 +4,7 @@ import 'package:trip_life/application/abstract_repositories/abstract_vacation_re
 import 'package:trip_life/application/blocs/vacation_list_bloc/vacation_list_bloc.dart';
 import 'package:trip_life/presentation/pages/add_vacation_page.dart';
 import 'package:trip_life/presentation/service_locator.dart';
-import 'package:trip_life/presentation/widgets/shared/main_app_bar.dart';
+import 'package:trip_life/presentation/widgets/shared/app_bar/main_app_bar.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
 import 'package:trip_life/presentation/widgets/shared/retry_scaffold.dart';
 import 'package:trip_life/presentation/widgets/vacation/vacations_list_item.dart';

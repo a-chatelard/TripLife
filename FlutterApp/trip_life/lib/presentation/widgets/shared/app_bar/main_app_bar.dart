@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trip_life/application/blocs/authentication_bloc/authentication_bloc.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({super.key, required this.title});
@@ -21,6 +23,15 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           );
         },
       ),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            context.read<AuthenticationBloc>().add(LogOutUserAuthentication());
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        )
+      ],
     );
   }
 

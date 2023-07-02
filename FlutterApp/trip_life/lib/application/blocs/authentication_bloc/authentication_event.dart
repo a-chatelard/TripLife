@@ -5,3 +5,5 @@ abstract class AuthenticationEvent {
 }
 
 class DetermineAppUserAuthentication extends AuthenticationEvent {}
+
+class LogOutUserAuthentication extends AuthenticationEvent {}

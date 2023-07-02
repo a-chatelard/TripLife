@@ -9,8 +9,8 @@ import 'package:trip_life/application/blocs/add_vacation_bloc/add_vacation_bloc.
 import 'package:trip_life/application/blocs/vacation_list_bloc/vacation_list_bloc.dart';
 import 'package:trip_life/entity/models/address.dart';
 import 'package:trip_life/presentation/service_locator.dart';
-import 'package:trip_life/presentation/widgets/shared/loader_overlay_entry.dart';
-import 'package:trip_life/presentation/widgets/shared/previous_screen_app_bar.dart';
+import 'package:trip_life/presentation/widgets/shared/overlay_entry/loader_overlay_entry.dart';
+import 'package:trip_life/presentation/widgets/shared/app_bar/previous_screen_app_bar.dart';
 
 class AddVacationPage extends StatefulWidget {
   const AddVacationPage({super.key});

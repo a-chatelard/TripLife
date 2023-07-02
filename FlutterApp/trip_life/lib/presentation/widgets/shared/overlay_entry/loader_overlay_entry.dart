@@ -4,7 +4,7 @@ class LoaderOverlayEntry {
   static OverlayEntry build() {
     return OverlayEntry(builder: (context) {
       return Scaffold(
-          backgroundColor: Colors.grey[100]!.withOpacity(0.5),
+          backgroundColor: Colors.grey[600]!.withOpacity(0.5),
           body: const Center(
               child: CircularProgressIndicator(backgroundColor: Colors.green)));
     });
