@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_vacation_repository.dart';
 import 'package:trip_life/application/blocs/add_vacation_bloc/add_vacation_bloc.dart';
-import 'package:trip_life/application/blocs/vacation_list_bloc/vacation_list_bloc.dart';
 import 'package:trip_life/entity/models/address.dart';
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/shared/overlay_entry/loader_overlay_entry.dart';
 import 'package:trip_life/presentation/widgets/shared/app_bar/previous_screen_app_bar.dart';
+import 'package:trip_life/presentation/widgets/shared/overlay_entry/success_overlay_entry.dart';
 
 class AddVacationPage extends StatefulWidget {
   const AddVacationPage({super.key});
@@ -24,7 +24,7 @@ class AddVacationPage extends StatefulWidget {
 }
 
 class _AddVacationPageState extends State<AddVacationPage>
-    with RestorationMixin {
+    with RestorationMixin, TickerProviderStateMixin {
   OverlayEntry? overlayEntry = LoaderOverlayEntry.build();
 
   final _formKey = GlobalKey<FormState>();
@@ -45,6 +45,11 @@ class _AddVacationPageState extends State<AddVacationPage>
       RestorableDateTimeN(DateTime.now());
 
   final DateFormat dateFormatter = DateFormat('dd-MM-yyyy');
+
+  late AnimationController checkController = AnimationController(
+      duration: const Duration(milliseconds: 400), vsync: this);
+  late Animation<double> checkAnimation =
+      CurvedAnimation(parent: checkController, curve: Curves.linear);
 
   late final RestorableRouteFuture<DateTimeRange?>
       _restorableDateRangePickerRouteFuture =
@@ -80,19 +85,23 @@ class _AddVacationPageState extends State<AddVacationPage>
                 serviceLocator.get<AbstractVacationRepository>()),
         child: BlocConsumer<AddVacationBloc, AddVacationState>(
             listener: (context, state) {
-          // if (state.status.isSuccessful) {
-          //   vacationsListBloc.add(VacationListRequest());
-          // }
-        }, builder: (context, state) {
-          if (state.status.isSuccessful || state.status.isFailed) {
+          if (state.status.isLoading) {
+            Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+          } else if (state.status.isSuccessful) {
             overlayEntry?.remove();
+            overlayEntry = SuccessOverlayEntry.build(checkAnimation);
+            Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+            checkController.forward();
+            Timer(const Duration(milliseconds: 1500), () {
+              //vacationsListBloc.add(VacationListRequest());
+              overlayEntry?.remove();
+              Navigator.of(context).pop();
+            });
+          } else if (state.status.isFailed) {
+            overlayEntry?.remove();
+            overlayEntry = LoaderOverlayEntry.build();
           }
-          if (state.status.isSuccessful) {
-            Timer(const Duration(milliseconds: 1000),
-                () => Navigator.of(context).pop());
-          }
-          if (state.status.isFailed) {}
-
+        }, builder: (context, state) {
           return Scaffold(
               appBar: const PreviousScreenAppBar(),
               body: Form(
@@ -151,8 +160,6 @@ class _AddVacationPageState extends State<AddVacationPage>
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          Overlay.of(context, debugRequiredFor: widget)
-                              .insert(overlayEntry!);
                           context.read<AddVacationBloc>().add(
                               AddVacationRequest(
                                   _labelController.text,

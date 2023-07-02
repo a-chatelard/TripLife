@@ -46,12 +46,15 @@ class _SigninFormState extends State<SigninForm> with TickerProviderStateMixin {
         overlayEntry = SuccessOverlayEntry.build(checkAnimation);
         Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
         checkController.forward();
-        Timer(const Duration(milliseconds: 2000), () {
+        Timer(const Duration(milliseconds: 1500), () {
           overlayEntry?.remove();
           context
               .read<AuthenticationBloc>()
               .add(DetermineAppUserAuthentication());
         });
+      } else if (state.status.isFailed) {
+        overlayEntry?.remove();
+        overlayEntry = LoaderOverlayEntry.build();
       }
     }, builder: (context, state) {
       return Form(
