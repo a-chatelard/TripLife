@@ -38,6 +38,7 @@ dependencies:
 
   email_validator: ^2.1.17
   equatable: ^2.0.0
+  intl: ^0.18.1
   http: ^0.13.5
   flutter_bloc: ^8.1.2
   get_it: ^7.2.0

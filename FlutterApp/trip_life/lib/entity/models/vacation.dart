@@ -12,7 +12,7 @@ class Vacation extends Equatable {
   List<Object?> get props => [vacationId, label, startDate, endDate];
 
   static fromJson(Map<String, dynamic> json) {
-    return Vacation(
-        json['vacationId'], json['label'], json['startDate'], json['endDate']);
+    return Vacation(json['id'], json['label'],
+        DateTime.parse(json['startDate']), DateTime.parse(json['endDate']));
   }
 }

@@ -16,6 +16,7 @@ class AuthenticationBloc
       : _authenticationRepository = authenticationRepository,
         super(const AuthenticationState.unknown()) {
     on<DetermineAppUserAuthentication>(_onDetermineAppUserAuthentication);
+    on<LogOutUserAuthentication>(_logOutAppUserAutnentication);
     add(DetermineAppUserAuthentication());
   }
 
@@ -29,6 +30,13 @@ class AuthenticationBloc
     if (token.isNotEmpty) {
       return emit(AuthenticationState.authenticated(Authentication(token)));
     }
+
+    return emit(const AuthenticationState.unauthenticated());
+  }
+
+  Future<void> _logOutAppUserAutnentication(
+      LogOutUserAuthentication event, Emitter<AuthenticationState> emit) async {
+    _authenticationRepository.saveToken("");
 
     return emit(const AuthenticationState.unauthenticated());
   }
