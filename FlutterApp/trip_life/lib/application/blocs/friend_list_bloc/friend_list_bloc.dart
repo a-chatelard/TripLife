@@ -22,7 +22,8 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
       List<Friend> friendsList = await _friendRepository.getFriendsList();
       emit(FriendListState.succes(friendsList));
     } catch (error) {
-      emit(FriendListState.error(error.toString()));
+      emit(const FriendListState.error(
+          "Une erreur est survenue lors de la récupération des données."));
     }
   }
 }
