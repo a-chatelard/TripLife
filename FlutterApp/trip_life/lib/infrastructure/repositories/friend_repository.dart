@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:trip_life/application/abstract_repositories/abstract_friend_repository.dart';
 import 'package:trip_life/entity/models/add_friend_result.dart';
+import 'package:trip_life/entity/models/connected_user.dart';
 import 'package:trip_life/entity/models/friend_invitation_sent.dart';
 import 'package:trip_life/entity/models/friend_invitation_received.dart';
 import 'package:trip_life/entity/models/friend.dart';
@@ -71,6 +72,19 @@ class FriendRepository implements AbstractFriendRepository {
       }
 
       return List<AddFriendResult>.empty();
+    }
+
+    return Future.error("Une erreur est survenue.");
+  }
+
+  @override
+  Future<ConnectedUser> getConnectedUser() async {
+    var response = await _httpClient.get("/User");
+
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+
+      return ConnectedUser(json['id'], json['username'], json['email']);
     }
 
     return Future.error("Une erreur est survenue.");
