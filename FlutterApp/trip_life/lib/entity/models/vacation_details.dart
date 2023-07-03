@@ -18,6 +18,7 @@ class VacationDetails extends Equatable {
   //final double estimatedBudget;
   late List<Vacationer> vacationersList;
   late List<Activity> activitiesList;
+  late bool connectedUserIsOwner = false;
 
   @override
   List<Object?> get props => [vacationId];
@@ -38,5 +39,9 @@ class VacationDetails extends Equatable {
 
   void setVacationersList(List<Vacationer> vacationersList) {
     this.vacationersList = vacationersList;
+  }
+
+  void setOwnerShip(bool isOwner) {
+    connectedUserIsOwner = isOwner;
   }
 }

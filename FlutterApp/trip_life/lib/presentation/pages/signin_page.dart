@@ -37,9 +37,11 @@ class _SignInState extends State<SignInPage> {
               children: [
                 const SigninForm(),
                 const SizedBox(height: 20),
-                Text.rich(ClickableTextSpan("Créer un compte", () {
-                  Navigator.of(context).push(SignupPage.route());
-                })),
+                Text.rich(ClickableTextSpan(
+                    texte: "Créer un compte",
+                    callback: () {
+                      Navigator.of(context).push(SignupPage.route());
+                    })),
               ],
             ),
           ),

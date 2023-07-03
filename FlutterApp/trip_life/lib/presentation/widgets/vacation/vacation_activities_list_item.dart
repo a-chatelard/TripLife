@@ -18,15 +18,10 @@ class VacationActivitiesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: InkWell(
-      onTap: () {
-        //Navigator.of(context).push(VacationPage.route(vacationId));
-      },
-      child: Column(children: <Widget>[
-        Text(label),
-        Text(
-            "début: ${dateFormat.format(startDate)}   fin: ${dateFormat.format(endDate)}")
-      ]),
-    ));
+        child: Column(children: <Widget>[
+      Text(label),
+      Text(
+          "début: ${dateFormat.format(startDate)}   fin: ${dateFormat.format(endDate)}")
+    ]));
   }
 }

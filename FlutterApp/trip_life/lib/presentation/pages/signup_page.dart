@@ -36,9 +36,11 @@ class _SignupState extends State<SignupPage> {
               children: [
                 const SignupForm(),
                 const SizedBox(height: 20),
-                Text.rich(ClickableTextSpan("Se connecter", () {
-                  Navigator.of(context).pop();
-                })),
+                Text.rich(ClickableTextSpan(
+                    texte: "Se connecter",
+                    callback: () {
+                      Navigator.of(context).pop();
+                    })),
               ],
             ),
           ),
