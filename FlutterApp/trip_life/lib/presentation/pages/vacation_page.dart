@@ -12,7 +12,7 @@ import 'package:trip_life/presentation/widgets/shared/clickable_text_span.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
 import 'package:trip_life/presentation/widgets/vacation/vacation_activities_list.dart';
 import 'package:trip_life/presentation/widgets/vacation/vacation_vacationers_partial_list.dart';
-import 'package:trip_life/presentation/widgets/vacation/vacationers_list_item.dart';
+import 'package:trip_life/presentation/widgets/vacationer/vacationers_list_item.dart';
 
 class VacationPage extends StatefulWidget {
   const VacationPage({super.key, required this.vacationId});
