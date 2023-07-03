@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_vacation_repository.dart';
 import 'package:trip_life/application/blocs/vacation_bloc/vacation_bloc.dart';
 import 'package:trip_life/entity/models/activity.dart';
@@ -34,6 +35,8 @@ class _VacationPageState extends State<VacationPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => VacationBloc(
+          authenticationRepository:
+              serviceLocator.get<AbstractAuthenticationRepository>(),
           vacationRepository: serviceLocator.get<AbstractVacationRepository>())
         ..add(VacationRequest(widget.vacationId)),
       child: BlocConsumer<VacationBloc, VacationState>(

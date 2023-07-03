@@ -148,7 +148,7 @@ class VacationRepository implements AbstractVacationRepository {
   }
 
   @override
-  Future<VacationDetails> getVacation(String vacationId) async {
+  Future<VacationDetails> getVacation(String userId, String vacationId) async {
     var responseVacation = await _httpClient.get("/Vacation/$vacationId");
     var responseVacationers =
         await _httpClient.get("/Vacation/$vacationId/Vacationer");
@@ -164,6 +164,12 @@ class VacationRepository implements AbstractVacationRepository {
       if (vacationerIterable.isNotEmpty) {
         vacationDetails.setVacationersList(List<Vacationer>.from(
             vacationerIterable.map((item) => Vacationer.fromJson(item))));
+
+        Vacationer vacationner = vacationDetails.vacationersList
+            .where((vacationer) => (vacationer.userId == userId))
+            .first;
+
+        vacationDetails.setOwnerShip(vacationner.isOwner);
       } else {
         vacationDetails.setVacationersList(List<Vacationer>.empty());
       }

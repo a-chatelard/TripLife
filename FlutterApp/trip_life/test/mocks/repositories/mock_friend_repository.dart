@@ -1,3 +1,4 @@
+import 'package:trip_life/entity/models/connected_user.dart';
 import 'package:trip_life/entity/models/friend_invitation_sent.dart';
 import 'package:trip_life/entity/models/friend_invitation_received.dart';
 import 'package:trip_life/entity/models/friend.dart';
@@ -6,56 +7,53 @@ import 'package:trip_life/infrastructure/repositories/friend_repository.dart';
 
 class MockFriendRepository implements FriendRepository {
   @override
-  Future<bool> acceptFriendRequest(String friendRequestId) {
-    // TODO: implement acceptFriendRequest
-    throw UnimplementedError();
+  Future<bool> acceptFriendRequest(String friendRequestId) async {
+    return true;
   }
 
   @override
-  Future<bool> cancelFriendRequest(String friendRequestId) {
-    // TODO: implement cancelFriendRequest
-    throw UnimplementedError();
+  Future<bool> cancelFriendRequest(String friendRequestId) async {
+    return true;
   }
 
   @override
-  Future<bool> declineFriendRequest(String friendRequestId) {
-    // TODO: implement declineFriendRequest
-    throw UnimplementedError();
+  Future<bool> declineFriendRequest(String friendRequestId) async {
+    return true;
   }
 
   @override
-  Future<List<AddFriendResult>> getAddFriendResultList(String username) {
-    // TODO: implement getAddFriendResultList
-    throw UnimplementedError();
+  Future<List<AddFriendResult>> getAddFriendResultList(String username) async {
+    return List<AddFriendResult>.empty();
   }
 
   @override
-  Future<List<Friend>> getFriendsList() {
-    // TODO: implement getFriendsList
-    throw UnimplementedError();
+  Future<List<Friend>> getFriendsList() async {
+    return List<Friend>.empty();
   }
 
   @override
-  Future<List<ReceivedFriendRequest>> getReceivedFriendRequests() {
-    // TODO: implement getReceivedFriendRequests
-    throw UnimplementedError();
+  Future<List<ReceivedFriendRequest>> getReceivedFriendRequests() async {
+    return List<ReceivedFriendRequest>.empty();
   }
 
   @override
-  Future<List<SentFriendRequest>> getSentFriendRequests() {
-    // TODO: implement getSentFriendRequests
-    throw UnimplementedError();
+  Future<List<SentFriendRequest>> getSentFriendRequests() async {
+    return List<SentFriendRequest>.empty();
   }
 
   @override
-  Future<bool> removeFriend(String friendId) {
-    // TODO: implement removeFriend
-    throw UnimplementedError();
+  Future<bool> removeFriend(String friendId) async {
+    return false;
   }
 
   @override
-  Future<bool> sendFriendRequest(String recepientId) {
-    // TODO: implement sendFriendRequest
+  Future<bool> sendFriendRequest(String recepientId) async {
+    return false;
+  }
+
+  @override
+  Future<ConnectedUser> getConnectedUser() {
+    // TODO: implement getConnectedUser
     throw UnimplementedError();
   }
 }
