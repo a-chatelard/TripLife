@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trip_life/application/blocs/add_friend_bloc/add_friend_bloc.dart';
+import 'package:trip_life/application/blocs/add_friends_bloc/add_friends_bloc.dart';
 
 class AddFriendResultListItem extends StatelessWidget {
   const AddFriendResultListItem({
@@ -25,7 +25,7 @@ class AddFriendResultListItem extends StatelessWidget {
       leading: IconButton(
         icon: const Icon(Icons.person_add),
         onPressed: () {
-          context.read<AddFriendBloc>().add(AddFriendRequest(userId));
+          context.read<AddFriendsBloc>().add(AddFriendRequest(userId));
         },
       ),
     );

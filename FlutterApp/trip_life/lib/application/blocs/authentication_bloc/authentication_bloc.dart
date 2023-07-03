@@ -37,6 +37,7 @@ class AuthenticationBloc
   Future<void> _logOutAppUserAutnentication(
       LogOutUserAuthentication event, Emitter<AuthenticationState> emit) async {
     _authenticationRepository.saveToken("");
+    _authenticationRepository.saveUserId("");
 
     return emit(const AuthenticationState.unauthenticated());
   }

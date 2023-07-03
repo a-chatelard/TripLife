@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_friend_repository.dart';
-import 'package:trip_life/application/blocs/add_friend_bloc/add_friend_bloc.dart';
+import 'package:trip_life/application/blocs/add_friends_bloc/add_friends_bloc.dart';
 import 'package:trip_life/presentation/service_locator.dart';
 import 'package:trip_life/presentation/widgets/friend/add_friend_result_list_item.dart';
 import 'package:trip_life/presentation/widgets/shared/deboucer.dart';
@@ -26,10 +26,10 @@ class _AddFriendPageState extends State<AddFriendPage> {
     return Scaffold(
         appBar: const PreviousScreenAppBar(),
         body: BlocProvider(
-            create: (_) => AddFriendBloc(
+            create: (_) => AddFriendsBloc(
                 friendRepository:
                     serviceLocator.get<AbstractFriendRepository>()),
-            child: BlocConsumer<AddFriendBloc, AddFriendState>(
+            child: BlocConsumer<AddFriendsBloc, AddFriendsState>(
                 listener: (context, state) {},
                 builder: (context, state) {
                   return Column(children: [
@@ -46,10 +46,10 @@ class _AddFriendPageState extends State<AddFriendPage> {
   }
 
   void _searchFriend(BuildContext context, String username) {
-    context.read<AddFriendBloc>().add(FriendSearchRequest(username));
+    context.read<AddFriendsBloc>().add(FriendSearchRequest(username));
   }
 
-  Widget _addFriendResultList(AddFriendState state) {
+  Widget _addFriendResultList(AddFriendsState state) {
     if (state.status.isSearchPending) {
       return const Scaffold(
           body: Center(

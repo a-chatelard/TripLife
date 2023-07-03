@@ -1,4 +1,4 @@
-part of 'add_friend_bloc.dart';
+part of 'add_friends_bloc.dart';
 
 abstract class AddFriendEvent {
   const AddFriendEvent();

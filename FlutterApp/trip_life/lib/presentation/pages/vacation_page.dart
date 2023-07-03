@@ -65,8 +65,11 @@ class _VacationPageState extends State<VacationPage> {
                           "Vacanciers",
                           style: TextStyle(fontSize: 18),
                         ),
-                        VacationVacationersPartialList(
-                            vacationersList: state.vacation!.vacationersList),
+                        SizedBox(
+                          height: 100,
+                          child: VacationVacationersPartialList(
+                              vacationersList: state.vacation!.vacationersList),
+                        ),
                         if (state.vacation!.vacationersList.length > 3 ||
                             state.vacation!.connectedUserIsOwner)
                           Text.rich(ClickableTextSpan(
@@ -85,9 +88,12 @@ class _VacationPageState extends State<VacationPage> {
                           "Activités",
                           style: TextStyle(fontSize: 18),
                         ),
-                        VacationActicitiesList(
-                          activitiesList: state.vacation!.activitiesList,
-                          callback: _showActivityDialog,
+                        SizedBox(
+                          height: 100,
+                          child: VacationActicitiesList(
+                            activitiesList: state.vacation!.activitiesList,
+                            callback: _showActivityDialog,
+                          ),
                         )
                       ]),
                 ),

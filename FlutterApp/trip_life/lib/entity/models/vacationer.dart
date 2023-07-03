@@ -16,6 +16,6 @@ class Vacationer extends Equatable {
 
   static fromJson(Map<String, dynamic> json) {
     return Vacationer(json['id'], json['vacationId'], json['userId'],
-        json['userName'], json['isOwner']);
+        json['username'], json['isOwner']);
   }
 }

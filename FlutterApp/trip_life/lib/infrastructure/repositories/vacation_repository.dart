@@ -48,10 +48,10 @@ class VacationRepository implements AbstractVacationRepository {
   Future<bool> createActivity(
       String vacationId,
       String label,
-      String description,
+      String? description,
       DateTime startDate,
       DateTime endDate,
-      double estimatedPrice,
+      double? estimatedPrice,
       Address address) async {
     var activity = {
       'label': label,
@@ -178,6 +178,23 @@ class VacationRepository implements AbstractVacationRepository {
       }
 
       return vacationDetails;
+    }
+
+    return Future.error("Une erreur est survenue.");
+  }
+
+  @override
+  Future<List<Vacationer>> getVacationersList(String vacationId) async {
+    var response = await _httpClient.get("/Vacation/$vacationId/Vacationer");
+
+    if (response.statusCode == 200) {
+      Iterable vacationerIterable = jsonDecode(response.body);
+
+      if (vacationerIterable.isNotEmpty) {
+        return List<Vacationer>.from(
+            vacationerIterable.map((item) => Vacationer.fromJson(item)));
+      }
+      return List<Vacationer>.empty();
     }
 
     return Future.error("Une erreur est survenue.");

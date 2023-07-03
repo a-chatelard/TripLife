@@ -20,8 +20,18 @@ class AuthenticationRepository implements AbstractAuthenticationRepository {
   }
 
   @override
+  String readUserId() {
+    return _localStore.readStringValue('userId') ?? "";
+  }
+
+  @override
   Future<bool> saveToken(String token) {
     return _localStore.saveStringValue('token', token);
+  }
+
+  @override
+  Future<bool> saveUserId(String userId) {
+    return _localStore.saveStringValue('userId', userId);
   }
 
   @override

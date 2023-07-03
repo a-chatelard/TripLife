@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
+import 'package:trip_life/application/abstract_repositories/abstract_friend_repository.dart';
 import 'package:trip_life/application/blocs/signin_bloc/signin_bloc.dart';
 import 'package:trip_life/presentation/pages/signup_page.dart';
 import 'package:trip_life/presentation/service_locator.dart';
@@ -27,7 +28,8 @@ class _SignInState extends State<SignInPage> {
     return BlocProvider(
         create: (_) => SigninBloc(
             authenticationRepository:
-                serviceLocator.get<AbstractAuthenticationRepository>()),
+                serviceLocator.get<AbstractAuthenticationRepository>(),
+            friendRepository: serviceLocator.get<AbstractFriendRepository>()),
         child: Scaffold(
           body: Container(
             alignment: Alignment.center,

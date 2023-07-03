@@ -22,7 +22,9 @@ class _VacationVacationersPartialListState
     } else {
       return ListView.builder(
           padding: const EdgeInsets.all(8),
-          itemCount: 3,
+          itemCount: widget.vacationersList.length > 3
+              ? 3
+              : widget.vacationersList.length,
           itemBuilder: (BuildContext context, int index) {
             return VacationVacationersPartialListItem(
               vacationerId: widget.vacationersList[index].vacationerId,
