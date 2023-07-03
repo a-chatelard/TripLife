@@ -1,5 +1,6 @@
 ﻿using Application.Users.AnswerFriendRequest;
 using Application.Users.CancelFriendRequest;
+using Application.Users.GetConnectedUserDetails;
 using Application.Users.GetFriendRequests;
 using Application.Users.GetFriendsList;
 using Application.Users.GetSentFriendRequests;
@@ -26,6 +27,20 @@ public class UserController : ControllerBase
     public UserController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    /// <summary>
+    /// Retourne les informations de l'utilisateur connecté, dont son adresse mail.
+    /// </summary>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Les informations de l'utilisateur connecté.</returns>
+    [HttpGet]
+    public async Task<ActionResult<ConnectedUserResult>> GetConnectedUserDetails(CancellationToken cancellationToken)
+    {
+        var query = new GetConnectedUserDetailsQuery(HttpContext.GetRequesterId());
+        var result = await _mediator.Send(query, cancellationToken);
+
+        return Ok(result);
     }
 
     /// <summary>
