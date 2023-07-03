@@ -62,6 +62,11 @@ public class Vacation
 
         var vacationer = Vacationer.Create(user, isOwner);
 
+        if (isOwner)
+        {
+            ConfirmVacationer(vacationer);
+        }
+
         _vacationers.Add(vacationer);
 
         return vacationer;
