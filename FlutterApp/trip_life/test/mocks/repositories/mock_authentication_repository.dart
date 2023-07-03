@@ -21,4 +21,14 @@ class MockAuthenticationRepository implements AuthenticationRepository {
   Future<bool> saveToken(String token) async {
     return true;
   }
+
+  @override
+  String readUserId() {
+    return "";
+  }
+
+  @override
+  Future<bool> saveUserId(String userId) async {
+    return true;
+  }
 }
