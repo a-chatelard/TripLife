@@ -11,13 +11,13 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
       : _friendRepository = friendRepository,
         super(const FriendListState.loading()) {
     on<FriendListRequest>(_onFriendListRequest);
-    add(FriendListRequest());
   }
 
   final AbstractFriendRepository _friendRepository;
 
   Future<void> _onFriendListRequest(
       FriendListEvent event, Emitter<FriendListState> emit) async {
+    emit(const FriendListState.loading());
     try {
       List<Friend> friendsList = await _friendRepository.getFriendsList();
       emit(FriendListState.succes(friendsList));

@@ -70,7 +70,7 @@ class VacationRepository implements AbstractVacationRepository {
 
   @override
   Future<bool> createVacation(String label, DateTime startDate,
-      DateTime endDate, Address address, double estimatedBudget) async {
+      DateTime endDate, Address address, double? estimatedBudget) async {
     var vacation = {
       'label': label,
       'startDate': startDate.toUtc().toIso8601String(),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_authentication_repository.dart';
 import 'package:trip_life/application/abstract_repositories/abstract_friend_repository.dart';
+import 'package:trip_life/application/abstract_repositories/abstract_vacation_repository.dart';
 import 'package:trip_life/application/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:trip_life/application/blocs/friend_list_bloc/friend_list_bloc.dart';
+import 'package:trip_life/application/blocs/vacation_list_bloc/vacation_list_bloc.dart';
 import 'package:trip_life/presentation/pages/home_page.dart';
 import 'package:trip_life/presentation/pages/signin_page.dart';
 import 'package:trip_life/presentation/pages/splash_page.dart';
@@ -46,22 +49,35 @@ class _AppViewState extends State<AppView> {
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                    HomePage.route(), (route) => false);
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                    SignInPage.route(), (route) => false);
-                break;
-              case AuthenticationStatus.unknown:
-                break;
-            }
-          },
-          child: child,
-        );
+            listener: (context, state) {
+              switch (state.status) {
+                case AuthenticationStatus.authenticated:
+                  _navigator.pushAndRemoveUntil<void>(
+                      HomePage.route(), (route) => false);
+                  break;
+                case AuthenticationStatus.unauthenticated:
+                  _navigator.pushAndRemoveUntil<void>(
+                      SignInPage.route(), (route) => false);
+                  break;
+                case AuthenticationStatus.unknown:
+                  break;
+              }
+            },
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider<VacationListBloc>(
+                    create: (_) => VacationListBloc(
+                        vacationRepository:
+                            serviceLocator.get<AbstractVacationRepository>())
+                      ..add(VacationListRequest())),
+                BlocProvider<FriendListBloc>(
+                    create: (_) => FriendListBloc(
+                        friendRepository:
+                            serviceLocator.get<AbstractFriendRepository>())
+                      ..add(FriendListRequest())),
+              ],
+              child: child!,
+            ));
       },
       onGenerateRoute: (_) => SplashPage.route(),
       // theme: ThemeData(

@@ -17,7 +17,7 @@ abstract class AbstractVacationRepository {
       double? estimatedPrice,
       Address address);
   Future<bool> createVacation(String label, DateTime startDate,
-      DateTime endDate, Address address, double estimatedBudget);
+      DateTime endDate, Address address, double? estimatedBudget);
   Future<bool> createVacationInvitation(String vacationId, String userId);
   Future<bool> declineVacationInvitation(
       String vacationId, String vacationerId);

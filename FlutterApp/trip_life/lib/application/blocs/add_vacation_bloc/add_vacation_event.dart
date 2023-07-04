@@ -9,7 +9,7 @@ class AddVacationRequest implements AddVacationEvent {
   final DateTime startDate;
   final DateTime endDate;
   final Address address;
-  final double estimatedBudget;
+  final double? estimatedBudget;
 
   AddVacationRequest(this.label, this.startDate, this.endDate, this.address,
       this.estimatedBudget);

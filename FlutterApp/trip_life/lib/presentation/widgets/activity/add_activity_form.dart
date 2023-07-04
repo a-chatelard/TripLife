@@ -29,7 +29,7 @@ class _AddActivityFormState extends State<AddActivityForm>
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
-  final TextEditingController _budgetController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
   final RestorableDateTimeN _selectedStartDate =
       RestorableDateTimeN(DateTime.now());
@@ -129,9 +129,9 @@ class _AddActivityFormState extends State<AddActivityForm>
                       controller: _countryController),
                   const SizedBox(height: 20),
                   TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: 'Budget prévu (optionnel)'),
-                    controller: _budgetController,
+                    decoration:
+                        const InputDecoration(hintText: 'prix (optionnel)'),
+                    controller: _priceController,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(
@@ -152,7 +152,9 @@ class _AddActivityFormState extends State<AddActivityForm>
                                 _countryController.text,
                                 _zipCodeController.text),
                             _descriptionController.text,
-                            double.parse(_budgetController.text)));
+                            _priceController.text.isNotEmpty
+                                ? double.parse(_priceController.text)
+                                : null));
                       },
                       child: const Text('Valider'))
                 ],

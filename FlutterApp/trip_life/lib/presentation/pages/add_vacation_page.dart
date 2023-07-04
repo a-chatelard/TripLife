@@ -171,7 +171,9 @@ class _AddVacationPageState extends State<AddVacationPage>
                                       _stateController.text,
                                       _countryController.text,
                                       _zipCodeController.text),
-                                  double.parse(_budgetController.text)));
+                                  _budgetController.text.isNotEmpty
+                                      ? double.parse(_budgetController.text)
+                                      : null));
                         },
                         child: const Text('Valider'))
                   ],
@@ -235,7 +237,6 @@ class _AddVacationPageState extends State<AddVacationPage>
     _cityController.dispose();
     _stateController.dispose();
     _countryController.dispose();
-    _budgetController.dispose();
     _budgetController.dispose();
     super.dispose();
   }
