@@ -1,4 +1,4 @@
-name: CI flutter  pub get
+name: CI flutter  pub get & test
 on:
   push:
     paths:
@@ -23,4 +23,5 @@ jobs:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.os }}-flutter-install-cache
       - run: flutter pub get ./FlutterApp/trip_life
+      - run: flutter test ./FlutterApp/trip_life
 
