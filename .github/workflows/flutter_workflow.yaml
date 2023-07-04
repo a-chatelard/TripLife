@@ -1,10 +1,14 @@
-name: CI flutter  pub get
+name: CI flutter  pub get & test
 on:
   push:
     paths:
       - 'FlutterApp/trip_life/**'
       - '.github/workflows/flutter_workflow.yaml'
 
+
+defaults:
+  run:
+    working-directory: ./FlutterApp/trip_life
 
 jobs:
   front-flutter:
@@ -22,5 +26,5 @@ jobs:
         with:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.os }}-flutter-install-cache
-      - run: flutter pub get ./FlutterApp/trip_life
+      - run: flutter pub get
 
