@@ -107,34 +107,34 @@ class FriendRepository implements AbstractFriendRepository {
   }
 
   @override
-  Future<List<ReceivedFriendRequest>> getReceivedFriendRequests() async {
+  Future<List<FriendInvitationReceived>> getReceivedFriendRequests() async {
     var response = await _httpClient.get("/User/FriendRequest/Received");
 
     if (response.statusCode == 200) {
       Iterable i = jsonDecode(response.body);
 
       if (i.isNotEmpty) {
-        return List<ReceivedFriendRequest>.from(
-            i.map((item) => ReceivedFriendRequest.fromJson(item)));
+        return List<FriendInvitationReceived>.from(
+            i.map((item) => FriendInvitationReceived.fromJson(item)));
       }
-      return List<ReceivedFriendRequest>.empty();
+      return List<FriendInvitationReceived>.empty();
     }
 
     return Future.error("Une erreur est survenue.");
   }
 
   @override
-  Future<List<SentFriendRequest>> getSentFriendRequests() async {
+  Future<List<FriendInvitationSent>> getSentFriendRequests() async {
     var response = await _httpClient.get("/User/FriendRequest/Sent");
 
     if (response.statusCode == 200) {
       Iterable i = jsonDecode(response.body);
 
       if (i.isNotEmpty) {
-        return List<SentFriendRequest>.from(
-            i.map((item) => SentFriendRequest.fromJson(item)));
+        return List<FriendInvitationSent>.from(
+            i.map((item) => FriendInvitationSent.fromJson(item)));
       }
-      return List<SentFriendRequest>.empty();
+      return List<FriendInvitationSent>.empty();
     }
 
     return Future.error("Une erreur est survenue.");

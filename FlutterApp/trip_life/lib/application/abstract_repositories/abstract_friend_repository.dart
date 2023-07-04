@@ -8,8 +8,8 @@ abstract class AbstractFriendRepository {
   Future<List<AddFriendResult>> getAddFriendResultList(String username);
   Future<ConnectedUser> getConnectedUser();
   Future<List<Friend>> getFriendsList();
-  Future<List<ReceivedFriendRequest>> getReceivedFriendRequests();
-  Future<List<SentFriendRequest>> getSentFriendRequests();
+  Future<List<FriendInvitationReceived>> getReceivedFriendRequests();
+  Future<List<FriendInvitationSent>> getSentFriendRequests();
   Future<bool> removeFriend(String friendId);
   Future<bool> sendFriendRequest(String recepientId);
   Future<bool> acceptFriendRequest(String friendRequestId);

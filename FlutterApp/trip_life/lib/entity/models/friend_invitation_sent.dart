@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class SentFriendRequest extends Equatable {
-  const SentFriendRequest(this.requestId, this.username);
+class FriendInvitationSent extends Equatable {
+  const FriendInvitationSent(this.requestId, this.username);
 
   final String requestId;
   final String username;
@@ -10,6 +10,6 @@ class SentFriendRequest extends Equatable {
   List<Object?> get props => [requestId, username];
 
   static fromJson(Map<String, dynamic> json) {
-    return SentFriendRequest(json['requestId'], json['username']);
+    return FriendInvitationSent(json['requestId'], json['username']);
   }
 }

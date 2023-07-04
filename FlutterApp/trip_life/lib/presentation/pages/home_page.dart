@@ -21,20 +21,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String title = "Mes Voyages";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MainAppBar(title: title),
+        appBar: MainAppBar(title: widget.title),
         drawer: const MainDrawer(),
         body: const VacationsList(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showAddVacationPage();
-            //context.read<VacationListBloc>().add(VacationListRequest());
           },
-          //=> _showAddVacationPage(context),
           child: const Icon(Icons.add),
         ));
   }

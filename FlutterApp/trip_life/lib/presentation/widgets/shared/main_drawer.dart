@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trip_life/presentation/pages/friends_list_page.dart';
 import 'package:trip_life/presentation/pages/home_page.dart';
+import 'package:trip_life/presentation/pages/invitations_page.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
@@ -31,10 +32,16 @@ class MainDrawer extends StatelessWidget {
             Navigator.of(context).pushReplacement(HomePage.route());
           }),
       ListTile(
-          leading: const Icon(Icons.emoji_people),
+          leading: const Icon(Icons.people),
           title: const Text('Amis'),
           onTap: () {
             Navigator.of(context).pushReplacement(FriendsListPage.route());
+          }),
+      ListTile(
+          leading: const Icon(Icons.mail),
+          title: const Text('Invitations'),
+          onTap: () {
+            Navigator.of(context).pushReplacement(InvitationsPage.route());
           }),
       const ListTile(
         leading: Icon(Icons.settings),

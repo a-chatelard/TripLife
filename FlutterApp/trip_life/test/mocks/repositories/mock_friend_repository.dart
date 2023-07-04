@@ -1,8 +1,8 @@
 import 'package:trip_life/entity/models/connected_user.dart';
-import 'package:trip_life/entity/models/friend_invitation_sent.dart';
-import 'package:trip_life/entity/models/friend_invitation_received.dart';
 import 'package:trip_life/entity/models/friend.dart';
 import 'package:trip_life/entity/models/add_friend_result.dart';
+import 'package:trip_life/entity/models/friend_invitation_received.dart';
+import 'package:trip_life/entity/models/friend_invitation_sent.dart';
 import 'package:trip_life/infrastructure/repositories/friend_repository.dart';
 
 class MockFriendRepository implements FriendRepository {
@@ -32,13 +32,13 @@ class MockFriendRepository implements FriendRepository {
   }
 
   @override
-  Future<List<ReceivedFriendRequest>> getReceivedFriendRequests() async {
-    return List<ReceivedFriendRequest>.empty();
+  Future<List<FriendInvitationReceived>> getReceivedFriendRequests() async {
+    return List<FriendInvitationReceived>.empty();
   }
 
   @override
-  Future<List<SentFriendRequest>> getSentFriendRequests() async {
-    return List<SentFriendRequest>.empty();
+  Future<List<FriendInvitationSent>> getSentFriendRequests() async {
+    return List<FriendInvitationSent>.empty();
   }
 
   @override
