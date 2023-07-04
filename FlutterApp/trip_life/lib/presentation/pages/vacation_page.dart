@@ -7,6 +7,7 @@ import 'package:trip_life/application/blocs/vacation_bloc/vacation_bloc.dart';
 import 'package:trip_life/entity/models/activity.dart';
 import 'package:trip_life/entity/models/vacationer.dart';
 import 'package:trip_life/presentation/service_locator.dart';
+import 'package:trip_life/presentation/widgets/activity/add_activity_form.dart';
 import 'package:trip_life/presentation/widgets/shared/app_bar/main_app_bar.dart';
 import 'package:trip_life/presentation/widgets/shared/clickable_text_span.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
@@ -150,16 +151,12 @@ class _VacationPageState extends State<VacationPage> {
         return AlertDialog(
           title: const Text('Ajouter une activité'),
           content: SingleChildScrollView(
-            child: ListBody(
-                // children: <Widget>[
-                //   Text('This is a demo alert dialog.'),
-                //   Text('Would you like to approve of this message?'),
-                // ],
-                ),
-          ),
+              child: AddActivityForm(
+            vacationId: widget.vacationId,
+          )),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('Annuler'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

@@ -23,9 +23,9 @@ class Activity extends Equatable {
         json['id'],
         json['label'],
         json['description'],
-        json['startDate'],
-        json['endDate'],
+        DateTime.parse(json['startDate']),
+        DateTime.parse(json['endDate']),
         json['estimatedPrice'],
-        Address.fromJson(jsonDecode(json['address'])));
+        Address.fromJson(json['address']));
   }
 }
