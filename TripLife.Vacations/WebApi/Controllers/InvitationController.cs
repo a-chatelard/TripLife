@@ -1,6 +1,7 @@
 ﻿using Application.Invitations.AnswerInvitation;
 using Application.Invitations.CancelInvitation;
 using Application.Invitations.GetPendingVacationInvitation;
+using Application.Invitations.GetUserVacationInvitations;
 using Application.Invitations.InviteUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,20 @@ public class InvitationController : ControllerBase
     public InvitationController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    /// <summary>
+    /// Récupère les invitations en attente à participer à des vacances de l'utilisateur connecté.
+    /// </summary>
+    /// <param name="cancellationToken">Jeton d'annulation.</param>
+    /// <returns>Une liste d'invitations.</returns>
+    [HttpGet("Invitations")]
+    public async Task<ActionResult<IEnumerable<InvitationResult>>> GetUserVacationInvitation(CancellationToken cancellationToken)
+    {
+        var query = new GetUserVacationInvitationsQuery(HttpContext.GetRequesterId());
+        var result = await _mediator.Send(query, cancellationToken);
+        
+        return Ok(result);
     }
 
     /// <summary>
