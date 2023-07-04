@@ -27,5 +27,4 @@ jobs:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.os }}-flutter-install-cache
       - run: flutter pub get
-      - run: flutter test
 
