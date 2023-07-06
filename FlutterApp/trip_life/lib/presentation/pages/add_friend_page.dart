@@ -33,13 +33,16 @@ class _AddFriendPageState extends State<AddFriendPage> {
                 listener: (context, state) {},
                 builder: (context, state) {
                   return Column(children: [
-                    TextField(
-                        decoration: const InputDecoration(
-                            hintText: 'Rechercher un ami'),
-                        onChanged: (username) {
-                          _debouncer
-                              .run(() => _searchFriend(context, username));
-                        }),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: TextField(
+                          decoration: const InputDecoration(
+                              hintText: 'Rechercher un ami'),
+                          onChanged: (username) {
+                            _debouncer
+                                .run(() => _searchFriend(context, username));
+                          }),
+                    ),
                     Expanded(child: _addFriendResultList(state))
                   ]);
                 })));

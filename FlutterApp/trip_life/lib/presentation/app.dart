@@ -46,36 +46,37 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: _navigatorKey,
       builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-              switch (state.status) {
-                case AuthenticationStatus.authenticated:
-                  _navigator.pushAndRemoveUntil<void>(
-                      HomePage.route(), (route) => false);
-                  break;
-                case AuthenticationStatus.unauthenticated:
-                  _navigator.pushAndRemoveUntil<void>(
-                      SignInPage.route(), (route) => false);
-                  break;
-                case AuthenticationStatus.unknown:
-                  break;
-              }
-            },
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider<VacationListBloc>(
-                    create: (_) => VacationListBloc(
-                        vacationRepository:
-                            serviceLocator.get<AbstractVacationRepository>())
-                      ..add(VacationListRequest())),
-                BlocProvider<FriendListBloc>(
-                    create: (_) => FriendListBloc(
-                        friendRepository:
-                            serviceLocator.get<AbstractFriendRepository>())
-                      ..add(FriendListRequest())),
-              ],
+        return MultiBlocProvider(
+            providers: [
+              BlocProvider<VacationListBloc>(
+                  create: (_) => VacationListBloc(
+                      vacationRepository:
+                          serviceLocator.get<AbstractVacationRepository>())),
+              BlocProvider<FriendListBloc>(
+                  create: (_) => FriendListBloc(
+                      friendRepository:
+                          serviceLocator.get<AbstractFriendRepository>())),
+            ],
+            child: BlocListener<AuthenticationBloc, AuthenticationState>(
+              listener: (context, state) {
+                switch (state.status) {
+                  case AuthenticationStatus.authenticated:
+                    context.read<VacationListBloc>().add(VacationListRequest());
+                    context.read<FriendListBloc>().add(FriendListRequest());
+                    _navigator.pushAndRemoveUntil<void>(
+                        HomePage.route(), (route) => false);
+                    break;
+                  case AuthenticationStatus.unauthenticated:
+                    _navigator.pushAndRemoveUntil<void>(
+                        SignInPage.route(), (route) => false);
+                    break;
+                  case AuthenticationStatus.unknown:
+                    break;
+                }
+              },
               child: child!,
             ));
       },

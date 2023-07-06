@@ -1,30 +1,45 @@
 part of 'vacation_invitation_list_bloc.dart';
 
-enum VacationInvitationListStatus { loading, success, error }
+enum VacationInvitationListStatus {
+  listLoading,
+  loadingListSuccess,
+  loadingListerror,
+  answerInvitationLoading,
+  answerInvitationSuccess,
+  answerInvitationError
+}
 
 extension VacationInvitationListStatusX on VacationInvitationListStatus {
-  bool get isLoading => this == VacationInvitationListStatus.loading;
-  bool get isSuccessful => this == VacationInvitationListStatus.success;
-  bool get isFailed => this == VacationInvitationListStatus.error;
+  bool get isListLoading => this == VacationInvitationListStatus.listLoading;
+  bool get isLoadingListSuccessful =>
+      this == VacationInvitationListStatus.loadingListSuccess;
+  bool get isLoadingListFailed =>
+      this == VacationInvitationListStatus.loadingListerror;
+  bool get isAnswerInvitationLoading =>
+      this == VacationInvitationListStatus.answerInvitationLoading;
+  bool get isAnswerInvitationSuccessful =>
+      this == VacationInvitationListStatus.answerInvitationSuccess;
+  bool get isAnswerInvitationFailed =>
+      this == VacationInvitationListStatus.answerInvitationError;
 }
 
 class VacationInvitationListState extends Equatable {
   const VacationInvitationListState._(
-      {this.status = VacationInvitationListStatus.loading,
+      {this.status = VacationInvitationListStatus.listLoading,
       this.errorMessage = "",
       this.vacationInvitationList});
 
-  const VacationInvitationListState.loading() : this._();
+  const VacationInvitationListState.listLoading() : this._();
 
-  const VacationInvitationListState.succes(
+  const VacationInvitationListState.loadingListSuccess(
       List<VacationInvitation> vacationInvitationList)
       : this._(
-            status: VacationInvitationListStatus.success,
+            status: VacationInvitationListStatus.loadingListSuccess,
             vacationInvitationList: vacationInvitationList);
 
-  const VacationInvitationListState.error(String errorMessage)
+  const VacationInvitationListState.loadingListerror(String errorMessage)
       : this._(
-            status: VacationInvitationListStatus.error,
+            status: VacationInvitationListStatus.loadingListerror,
             errorMessage: errorMessage);
 
   final VacationInvitationListStatus status;

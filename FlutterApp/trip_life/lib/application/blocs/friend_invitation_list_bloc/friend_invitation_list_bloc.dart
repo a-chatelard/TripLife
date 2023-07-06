@@ -38,33 +38,60 @@ class FriendInvitationListBloc
   Future<void> _onAnswerReceivedInvitationRequest(
       AnswerReceivedInvitationRequest event,
       Emitter<FriendInvitationListState> emit) async {
+    emit(state.copyWith(
+        friendInvitationReceivedList: state.friendInvitationReceivedList,
+        friendInvitationSentList: state.friendInvitationSentList,
+        status: FriendInvitationListStatus.answerInvitationReceivedLoading));
     try {
       if (event.response) {
         if (await _friendRepository
             .acceptFriendRequest(event.friendRequestId)) {
-          //remove element from list
-          emit(state);
+          state.friendInvitationReceivedList!.removeWhere(
+            (invitation) => invitation.requestId == event.friendRequestId,
+          );
+          emit(state.copyWith(
+              friendInvitationReceivedList: state.friendInvitationReceivedList,
+              friendInvitationSentList: state.friendInvitationSentList,
+              status:
+                  FriendInvitationListStatus.answerInvitationReceivedSuccess));
         }
       } else {
         if (await _friendRepository
             .declineFriendRequest(event.friendRequestId)) {
-          //remove element from list
-          emit(state);
+          state.friendInvitationReceivedList!.removeWhere(
+            (invitation) => invitation.requestId == event.friendRequestId,
+          );
+          emit(state.copyWith(
+              friendInvitationReceivedList: state.friendInvitationReceivedList,
+              friendInvitationSentList: state.friendInvitationSentList,
+              status:
+                  FriendInvitationListStatus.answerInvitationReceivedSuccess));
         }
       }
     } catch (error) {
+      // Changer pour une erreur answer
       return emit(FriendInvitationListState.error(error.toString()));
     }
   }
 
   Future<void> _onCancelSentInvitationRequest(CancelSentInvitationRequest event,
       Emitter<FriendInvitationListState> emit) async {
+    emit(state.copyWith(
+        friendInvitationReceivedList: state.friendInvitationReceivedList,
+        friendInvitationSentList: state.friendInvitationSentList,
+        status: FriendInvitationListStatus.cancelInvitationSentLoading));
     try {
       if (await _friendRepository.cancelFriendRequest(event.friendRequestId)) {
-        //remove from list
-        emit(state);
+        state.friendInvitationSentList!.removeWhere(
+          (invitation) => invitation.requestId == event.friendRequestId,
+        );
+        emit(state.copyWith(
+            friendInvitationReceivedList: state.friendInvitationReceivedList,
+            friendInvitationSentList: state.friendInvitationSentList,
+            status: FriendInvitationListStatus.cancelInvitationSentSuccess));
       }
     } catch (error) {
+      // Changer pour une erreur cancel
       return emit(FriendInvitationListState.error(error.toString()));
     }
   }

@@ -19,29 +19,42 @@ class InvitationsPage extends StatefulWidget {
 }
 
 class _InvitationsPageState extends State<InvitationsPage> {
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    FriendInvitationList(),
+    VacationInvitationList()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 2,
-      child: Scaffold(
-        appBar: MainAppBar(
-          title: widget.title,
-          tabBar: const TabBar(
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.people),
-              ),
-              Tab(
-                icon: Icon(Icons.airplane_ticket),
-              ),
-            ],
+    return Scaffold(
+      appBar: MainAppBar(
+        title: widget.title,
+      ),
+      drawer: const MainDrawer(),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Amis',
           ),
-        ),
-        drawer: const MainDrawer(),
-        body: const TabBarView(
-          children: <Widget>[FriendInvitationList(), VacationInvitationList()],
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.airplane_ticket),
+            label: 'Voyages',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue[600],
+        onTap: _onItemTapped,
       ),
     );
   }

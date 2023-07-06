@@ -1,16 +1,40 @@
 part of 'friend_invitation_list_bloc.dart';
 
-enum FriendInvitationListStatus { loading, success, error }
+enum FriendInvitationListStatus {
+  listLoading,
+  loadingListSuccess,
+  loadingListError,
+  answerInvitationReceivedLoading,
+  answerInvitationReceivedSuccess,
+  answerInvitationReceivedError,
+  cancelInvitationSentLoading,
+  cancelInvitationSentSuccess,
+  cancelInvitationSentError,
+}
 
 extension FriendInvitationListStatusX on FriendInvitationListStatus {
-  bool get isLoading => this == FriendInvitationListStatus.loading;
-  bool get isSuccessful => this == FriendInvitationListStatus.success;
-  bool get isFailed => this == FriendInvitationListStatus.error;
+  bool get isListLoading => this == FriendInvitationListStatus.listLoading;
+  bool get isLoadingListSuccessful =>
+      this == FriendInvitationListStatus.loadingListSuccess;
+  bool get isLoadingListFailed =>
+      this == FriendInvitationListStatus.loadingListError;
+  bool get isCancelInvitationSentLoading =>
+      this == FriendInvitationListStatus.cancelInvitationSentLoading;
+  bool get isCancelInvitationSentSuccess =>
+      this == FriendInvitationListStatus.cancelInvitationSentSuccess;
+  bool get isCancelInvitationSentError =>
+      this == FriendInvitationListStatus.cancelInvitationSentError;
+  bool get isAnswerInvitationReceivedLoading =>
+      this == FriendInvitationListStatus.answerInvitationReceivedLoading;
+  bool get isAnswerInvitationReceivedSuccess =>
+      this == FriendInvitationListStatus.answerInvitationReceivedSuccess;
+  bool get isAnwserInvitationReceivedError =>
+      this == FriendInvitationListStatus.answerInvitationReceivedError;
 }
 
 class FriendInvitationListState extends Equatable {
   const FriendInvitationListState._(
-      {this.status = FriendInvitationListStatus.loading,
+      {this.status = FriendInvitationListStatus.listLoading,
       this.errorMessage = "",
       this.friendInvitationReceivedList,
       this.friendInvitationSentList});
@@ -21,13 +45,13 @@ class FriendInvitationListState extends Equatable {
       List<FriendInvitationReceived> friendInvitationReceivedList,
       List<FriendInvitationSent> friendInvitationSentList)
       : this._(
-            status: FriendInvitationListStatus.success,
+            status: FriendInvitationListStatus.loadingListSuccess,
             friendInvitationReceivedList: friendInvitationReceivedList,
             friendInvitationSentList: friendInvitationSentList);
 
   const FriendInvitationListState.error(String errorMessage)
       : this._(
-            status: FriendInvitationListStatus.error,
+            status: FriendInvitationListStatus.loadingListError,
             errorMessage: errorMessage);
 
   final FriendInvitationListStatus status;

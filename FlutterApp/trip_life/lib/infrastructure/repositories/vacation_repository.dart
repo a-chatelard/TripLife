@@ -30,7 +30,7 @@ class VacationRepository implements AbstractVacationRepository {
     var answer = {'answer': true};
 
     var response = await _httpClient.patch(
-        "/Vacation/$vacationId/Vacationer/$vacationerId", jsonEncode(answer));
+        "/Vacation/$vacationId/Invitation/$vacationerId", jsonEncode(answer));
 
     return response.statusCode == 200;
   }
@@ -39,7 +39,7 @@ class VacationRepository implements AbstractVacationRepository {
   Future<bool> cancelVacationInvitation(
       String vacationId, String vacationerId) async {
     var response = await _httpClient
-        .delete("/Vacation/$vacationId/Vacationer/$vacationerId");
+        .delete("/Vacation/$vacationId/Invitation/$vacationerId");
 
     return response.statusCode == 204;
   }
@@ -101,7 +101,7 @@ class VacationRepository implements AbstractVacationRepository {
     var answer = {'answer': false};
 
     var response = await _httpClient.patch(
-        "/Vacation/$vacationId/Vacationer/$vacationerId", jsonEncode(answer));
+        "/Vacation/$vacationId/Invitation/$vacationerId", jsonEncode(answer));
 
     return response.statusCode == 200;
   }
@@ -127,6 +127,23 @@ class VacationRepository implements AbstractVacationRepository {
         .delete("/Vacation/$vacationId/Vacationer/$vacationerId");
 
     return response.statusCode == 204;
+  }
+
+  @override
+  Future<List<VacationInvitation>> getUserVacationInvitations() async {
+    var response = await _httpClient.get("/Invitations");
+
+    if (response.statusCode == 200) {
+      Iterable invitationIterable = jsonDecode(response.body);
+
+      if (invitationIterable.isNotEmpty) {
+        return List<VacationInvitation>.from(invitationIterable
+            .map((item) => VacationInvitation.fromJson(item)));
+      }
+      return List<VacationInvitation>.empty();
+    }
+
+    return Future.error("Une erreur est survenue.");
   }
 
   @override

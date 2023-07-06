@@ -70,11 +70,9 @@ class FriendRepository implements AbstractFriendRepository {
 
         // return [addFriendResult];
       }
-
-      return List<AddFriendResult>.empty();
     }
 
-    return Future.error("Une erreur est survenue.");
+    return List<AddFriendResult>.empty();
   }
 
   @override

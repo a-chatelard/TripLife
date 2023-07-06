@@ -28,6 +28,7 @@ abstract class AbstractVacationRepository {
   Future<List<VacationInvitation>> getPendingVacationInvitationsList(
       String vacationId);
   Future<VacationDetails> getVacation(String userId, String vacationId);
+  Future<List<VacationInvitation>> getUserVacationInvitations();
   Future<List<Vacationer>> getVacationersList(String vacationId);
   Future<bool> removeActivityParticipation(
       String vacationId, String activityId);
