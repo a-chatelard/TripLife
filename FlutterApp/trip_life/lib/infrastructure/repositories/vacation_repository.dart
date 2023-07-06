@@ -90,7 +90,7 @@ class VacationRepository implements AbstractVacationRepository {
     var invitation = {'userId': userId};
 
     var response = await _httpClient.post(
-        "/Vacation/$vacationId/Vacationer", jsonEncode(invitation));
+        "/Vacation/$vacationId/Invitation", jsonEncode(invitation));
 
     return response.statusCode == 201;
   }

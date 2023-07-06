@@ -32,9 +32,12 @@ class AddVacationersBloc
 
     try {
       List<AddVacationerResult> addVacationerResultsList =
-          List<AddVacationerResult>.empty();
+          List<AddVacationerResult>.empty(growable: true);
 
       List<Friend> friendsList = await _friendRepository.getFriendsList();
+
+      List<VacationInvitation> vacationInvitation = await _vacationRepository
+          .getPendingVacationInvitationsList(event.vacationId);
 
       List<Vacationer> vacationersList =
           await _vacationRepository.getVacationersList(state.vacationId);
@@ -42,9 +45,6 @@ class AddVacationersBloc
       for (var vacationer in vacationersList) {
         friendsList.removeWhere((element) => element.id == vacationer.userId);
       }
-
-      List<VacationInvitation> vacationInvitation = await _vacationRepository
-          .getPendingVacationInvitationsList(event.vacationId);
 
       for (var friend in friendsList) {
         var invitation = vacationInvitation

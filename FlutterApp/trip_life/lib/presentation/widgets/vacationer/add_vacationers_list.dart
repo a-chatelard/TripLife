@@ -18,18 +18,16 @@ class AddVacationersList extends StatefulWidget {
 class _AddVacationersListState extends State<AddVacationersList> {
   @override
   Widget build(BuildContext context) {
-    // if (widget.vacationersList.isEmpty) {
-    //   return const Text("Aucun vacancier enregistré");
-    // } else {
     return BlocProvider(
       create: (_) => AddVacationersBloc(
         friendRepository: serviceLocator.get<AbstractFriendRepository>(),
         vacationRepository: serviceLocator.get<AbstractVacationRepository>(),
-      ),
+      )..add(LoadingListRequest(widget.vacationId)),
       child: BlocConsumer<AddVacationersBloc, AddVacationersState>(
           listener: (context, state) {},
           builder: (context, state) {
-            if (state.status.isLoadingListSuccessful) {
+            if (state.status.isLoadingListSuccessful ||
+                state.status.isSendInvitationSuccessful) {
               return ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: state.addVacationerResultsList!.length,

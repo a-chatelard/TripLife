@@ -6,6 +6,7 @@ import 'package:trip_life/entity/models/address.dart';
 part 'add_activity_event.dart';
 part 'add_activity_state.dart';
 
+/// Bloc to manage events for adding new activities to vacations
 class AddActivityBloc extends Bloc<AddActivityEvent, AddActivityState> {
   AddActivityBloc({required AbstractVacationRepository vacationRepository})
       : _vacationRepository = vacationRepository,

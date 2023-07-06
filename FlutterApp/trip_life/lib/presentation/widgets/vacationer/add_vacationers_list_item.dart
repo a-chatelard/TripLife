@@ -18,7 +18,7 @@ class AddVacationersListItem extends StatelessWidget {
       leading: IconButton(
         icon: const Icon(Icons.person_add),
         onPressed: () {
-          callback;
+          callback();
         },
       ),
     );

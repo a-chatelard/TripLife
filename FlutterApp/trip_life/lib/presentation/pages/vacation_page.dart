@@ -13,7 +13,8 @@ import 'package:trip_life/presentation/widgets/shared/clickable_text_span.dart';
 import 'package:trip_life/presentation/widgets/shared/main_drawer.dart';
 import 'package:trip_life/presentation/widgets/vacation/vacation_activities_list.dart';
 import 'package:trip_life/presentation/widgets/vacation/vacation_vacationers_partial_list.dart';
-import 'package:trip_life/presentation/widgets/vacationer/vacationers_list_item.dart';
+import 'package:trip_life/presentation/widgets/vacationer/vacationers_guest_scaffold.dart';
+import 'package:trip_life/presentation/widgets/vacationer/vacationers_owner_scaffold.dart';
 
 class VacationPage extends StatefulWidget {
   const VacationPage({super.key, required this.vacationId});
@@ -74,16 +75,17 @@ class _VacationPageState extends State<VacationPage> {
                           child: VacationVacationersPartialList(
                               vacationersList: state.vacation!.vacationersList),
                         ),
-                        // if (state.vacation!.vacationersList.length > 3 ||
-                        //     state.vacation!.connectedUserIsOwner)
-                        Text.rich(ClickableTextSpan(
-                            texte: (state.vacation!.connectedUserIsOwner
-                                ? "Voir plus"
-                                : "Ajouter"),
-                            callback: () {
-                              _showVacationersDialog(
-                                  state.vacation!.vacationersList);
-                            })),
+                        if (state.vacation!.vacationersList.length > 3 ||
+                            state.vacation!.connectedUserIsOwner)
+                          Text.rich(ClickableTextSpan(
+                              texte: (state.vacation!.connectedUserIsOwner
+                                  ? "Ajouter"
+                                  : "Voir plus"),
+                              callback: () {
+                                _showVacationersDialog(
+                                    state.vacation!.vacationersList,
+                                    state.vacation!.connectedUserIsOwner);
+                              })),
                         const Divider(
                           height: 10,
                           color: Colors.transparent,
@@ -151,59 +153,43 @@ class _VacationPageState extends State<VacationPage> {
   Future<void> _showAddActivityDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: true, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Ajouter une activité'),
-          content: SingleChildScrollView(
-              child: AddActivityForm(
-            vacationId: widget.vacationId,
-          )),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Annuler'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        return Dialog(
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              title: const Text('Ajouter une activité'),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.close))
+              ],
             ),
-          ],
+            body: SingleChildScrollView(
+                child: AddActivityForm(
+              vacationId: widget.vacationId,
+            )),
+          ),
         );
       },
     );
   }
 
-  Future<void> _showVacationersDialog(List<Vacationer> vacationersList) async {
+  Future<void> _showVacationersDialog(
+      List<Vacationer> vacationersList, bool isConnectedUserOwner) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Vacanciers'),
-          content: SingleChildScrollView(
-            child: Container(
-                width: 200.0,
-                height: 200.0,
-                child: vacationersList.isEmpty
-                    ? const Text("Aucun vacacier enregistré")
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(8),
-                        itemCount: vacationersList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return VacationersListItem(
-                            vacationerId: vacationersList[index].vacationerId,
-                            username: vacationersList[index].username ?? "",
-                          );
-                        })),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Fermer'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+        return Dialog(
+            child: isConnectedUserOwner
+                ? VacationersOwnerScaffold(
+                    vacationersList: vacationersList,
+                    vacationId: widget.vacationId)
+                : VacationersGuestScaffold(vacationersList: vacationersList));
       },
     );
   }
