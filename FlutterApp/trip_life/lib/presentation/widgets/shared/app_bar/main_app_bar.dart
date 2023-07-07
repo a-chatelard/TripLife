@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trip_life/application/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:trip_life/presentation/pages/user_profil_page.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({
@@ -31,9 +30,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: <Widget>[
         IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () {
-            context.read<AuthenticationBloc>().add(LogOutUserAuthentication());
+          icon: const Icon(Icons.account_circle),
+          onPressed: () async {
+            await Navigator.push(context, UserProfilPage.route());
           },
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         )
