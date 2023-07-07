@@ -15,9 +15,9 @@ public class GetUserVacationsQueryHandler : IRequestHandler<GetUserVacationsQuer
     {
         return await _context.Vacations
             .Include(v => v.Vacationers)
-            .Where(v => v.Vacationers.Any(v => v.UserId == request.RequesterId))
+            .Where(v => v.Vacationers.Any(v => v.UserId == request.RequesterId && v.IsConfirmed))
             .AsNoTracking()
-            .Select(v => new VacationResult(v.Id, v.Label, v.Period.StartDate, v.Period.EndDate))
+            .Select(v => new VacationResult(v.Id, v.Label, v.Period.StartDate, v.Period.EndDate, v.Vacationers.First(v => v.UserId == request.RequesterId).IsOwner))
             .ToListAsync(cancellationToken);
     }
 }

@@ -19,6 +19,7 @@ public class GetPendingVacationInvitationQueryHandler : IRequestHandler<GetPendi
     {
         var vacation = await _context.Vacations
             .Include(v => v.Vacationers.Where(v => v.IsOwner))
+            .Where(v => v.Id == request.VacationId)
             .AsNoTracking()
             .FirstOrDefaultAsync()
             ?? throw new DomainException($"Les vacances n'ont pas été trouvées.");
@@ -29,17 +30,15 @@ public class GetPendingVacationInvitationQueryHandler : IRequestHandler<GetPendi
             throw new DomainException("Accès non autorisé.");
         }
 
-        var result = await _context.Vacations
-            .Include(v => v.Vacationers.Where(v => !v.IsConfirmed))
-            .ThenInclude(v => v.User)
-            .Where(v => v.Id == request.VacationId)
+        var result = await _context.Vacationers.Where(v => v.VacationId == request.VacationId && !v.IsConfirmed)
+            .Include(v => v.Vacation)
+            .Include(v => v.User)
             .AsNoTracking()
-            .SelectMany(v => v.Vacationers)
             .ToListAsync(cancellationToken);
 
         return result.Select(v => new InvitationResult(
             v.Id,
             new UserResult(v.User.Id, v.User.Username),
-            new VacationResult(v.Vacation.Id, v.Vacation.Label, v.Vacation.Period.StartDate, v.Vacation.Period.EndDate)));
+            new VacationResult(v.Vacation.Id, v.Vacation.Label, v.Vacation.Period.StartDate, v.Vacation.Period.EndDate, false)));
     }
 }

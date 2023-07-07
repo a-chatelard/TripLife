@@ -44,7 +44,7 @@ public class VacationController : ControllerBase
     [HttpGet("{vacationId:guid}")]
     public async Task<ActionResult<VacationResult>> GetVacationDetails(Guid vacationId, CancellationToken cancellationToken)
     {
-        var query = new GetVacationDetailsQuery(vacationId);
+        var query = new GetVacationDetailsQuery(HttpContext.GetRequesterId(), vacationId);
         var result = await _mediator.Send(query, cancellationToken);
         return Ok(result);
     }

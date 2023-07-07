@@ -10,6 +10,7 @@ public class AnswerInvitationCommand : IRequest
 
     public AnswerInvitationCommand(Guid requesterId, Guid vacationId, Guid vacationerId, InvitationAnswerRequest request)
     {
+        RequesterId = requesterId;
         VacationId = vacationId;
         VacationerId = vacationerId;
         Answer = request.Answer;

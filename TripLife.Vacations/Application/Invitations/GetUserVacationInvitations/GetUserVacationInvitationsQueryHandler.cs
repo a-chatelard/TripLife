@@ -26,7 +26,7 @@ public class GetUserVacationInvitationsQueryHandler : IRequestHandler<GetUserVac
         return invitations.Select(v => new InvitationResult(
             v.Id,
             new UserResult(v.User.Id, v.User.Username),
-            new VacationResult(v.Vacation.Id, v.Vacation.Label, v.Vacation.Period.StartDate, v.Vacation.Period.EndDate))
+            new VacationResult(v.Vacation.Id, v.Vacation.Label, v.Vacation.Period.StartDate, v.Vacation.Period.EndDate, false))
         ).ToList();
     }
 }

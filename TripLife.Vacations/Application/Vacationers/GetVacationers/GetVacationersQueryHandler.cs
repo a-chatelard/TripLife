@@ -15,10 +15,10 @@ public class GetVacationersQueryHandler : IRequestHandler<GetVacationersQuery, I
     public async Task<IEnumerable<VacationerResult>> Handle(GetVacationersQuery request, CancellationToken cancellationToken)
     {
         return await _context.Vacationers
-            .Where(v => v.VacationId == request.VacationId)
+            .Where(v => v.VacationId == request.VacationId && v.IsConfirmed)
             .Include(v => v.User)
             .AsNoTracking()
-            .Select(v => new VacationerResult(v.Id, v.VacationId, v.User.Id, v.User.Username))
+            .Select(v => new VacationerResult(v.Id, v.VacationId, v.User.Id, v.User.Username, v.IsOwner))
             .ToListAsync(cancellationToken);
     }
 }

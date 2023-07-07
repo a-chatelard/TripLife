@@ -7,11 +7,12 @@ public class VacationerResult
     public string? Username { get; }
     public bool IsOwner { get; }
 
-    public VacationerResult(Guid id, Guid vacationId, Guid userId, string? username)
+    public VacationerResult(Guid id, Guid vacationId, Guid userId, string? username, bool isOwner)
     {
         Id = id;
         VacationId = vacationId;
         UserId = userId;
         Username = username;
+        IsOwner = isOwner;
     }
 }
