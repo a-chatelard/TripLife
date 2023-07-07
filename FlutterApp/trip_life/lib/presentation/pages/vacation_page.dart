@@ -7,6 +7,7 @@ import 'package:trip_life/application/blocs/vacation_bloc/vacation_bloc.dart';
 import 'package:trip_life/entity/models/activity.dart';
 import 'package:trip_life/entity/models/vacationer.dart';
 import 'package:trip_life/presentation/service_locator.dart';
+import 'package:trip_life/presentation/widgets/activity/activity_scaffold.dart';
 import 'package:trip_life/presentation/widgets/activity/add_activity_form.dart';
 import 'package:trip_life/presentation/widgets/shared/app_bar/main_app_bar.dart';
 import 'package:trip_life/presentation/widgets/shared/clickable_text_span.dart';
@@ -97,6 +98,7 @@ class _VacationPageState extends State<VacationPage> {
                         SizedBox(
                           height: 100,
                           child: VacationActicitiesList(
+                            vacationId: state.vacation!.vacationId,
                             activitiesList: state.vacation!.activitiesList,
                             callback: _showActivityDialog,
                           ),
@@ -122,30 +124,14 @@ class _VacationPageState extends State<VacationPage> {
     );
   }
 
-  Future<void> _showActivityDialog(Activity activity) async {
+  Future<void> _showActivityDialog(String vacationId, Activity activity) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(activity.label),
-          content: SingleChildScrollView(
-            child: ListBody(
-                // children: <Widget>[
-                //   Text('This is a demo alert dialog.'),
-                //   Text('Would you like to approve of this message?'),
-                // ],
-                ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+        return Dialog(
+            child:
+                ActivityScaffold(vacationId: vacationId, activity: activity));
       },
     );
   }

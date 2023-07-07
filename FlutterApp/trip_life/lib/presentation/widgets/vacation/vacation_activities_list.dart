@@ -4,10 +4,14 @@ import 'package:trip_life/presentation/widgets/vacation/vacation_activities_list
 
 class VacationActicitiesList extends StatefulWidget {
   const VacationActicitiesList(
-      {super.key, required this.activitiesList, required this.callback});
+      {super.key,
+      required this.vacationId,
+      required this.activitiesList,
+      required this.callback});
 
+  final String vacationId;
   final List<Activity> activitiesList;
-  final Future<void> Function(Activity) callback;
+  final Future<void> Function(String, Activity) callback;
 
   @override
   State<VacationActicitiesList> createState() => _VacationActivitiesListState();
@@ -25,7 +29,8 @@ class _VacationActivitiesListState extends State<VacationActicitiesList> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
                 onTap: () {
-                  widget.callback(widget.activitiesList[index]);
+                  widget.callback(
+                      widget.vacationId, widget.activitiesList[index]);
                 },
                 child: VacationActivitiesListItem(
                   activityId: widget.activitiesList[index].activityId,
